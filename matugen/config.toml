@@ -11,7 +11,7 @@
 # first, then this override.
 [templates.hypr-colors]
 input_path  = "~/.config/matugen/templates/hypr-colors.tmpl"
-output_path = "~/.local/state/wayle/colors.conf"
+output_path = "~/my-dots/generated/hypr-colors.conf"
 # `hyprctl reload` prints "ok" to stdout. wayle self-themes by running matugen
 # with `--json` and capturing stdout as its palette; an unredirected post_hook
 # appends "ok" after the JSON, so wayle fails with "cannot parse palette JSON"
@@ -21,7 +21,7 @@ post_hook   = "hyprctl reload >/dev/null 2>&1"
 
 [templates.kitty]
 input_path  = "~/.config/matugen/templates/kitty.tmpl"
-output_path = "~/.local/state/wayle/kitty.conf"
+output_path = "~/my-dots/generated/kitty.conf"
 # Shared state dir (same place hyprland/hyprlock colors go), NOT kitty's config
 # dir — kitty.conf includes it by absolute path. kitty re-reads kitty.conf (and
 # its includes) on SIGUSR1, re-applying colors to every open window. wayle runs
@@ -33,13 +33,13 @@ post_hook   = "pkill -USR1 kitty >/dev/null 2>&1 || true"
 
 [templates.rofi]
 input_path  = "~/.config/matugen/templates/rofi.tmpl"
-output_path = "~/.config/rofi/colors.rasi"
+output_path = "~/my-dots/generated/rofi-colors.rasi"
 # No post_hook: rofi is launched on demand and reads its theme fresh every time,
 # so there is no running instance to signal (unlike kitty's SIGUSR1 reload).
 
 [templates.hyprlock]
 input_path  = "~/.config/matugen/templates/hyprlock.tmpl"
-output_path = "~/.local/state/wayle/hyprlock-colors.conf"
+output_path = "~/my-dots/generated/hyprlock-colors.conf"
 
 [templates.yazi]
 input_path  = "~/.config/matugen/templates/yazi.tmpl"
