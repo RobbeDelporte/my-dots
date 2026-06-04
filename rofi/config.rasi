@@ -1,0 +1,88 @@
+/* my-dots rofi config — drun launcher + dmenu (clipboard, emoji, window
+ * switcher, wallpaper picker all use this default theme).
+ *
+ * Colors come from matugen via generated/rofi-colors.rasi, which redefines the
+ * "*{}" role block below. The @import is AFTER the fallback block so generated
+ * values win. rasi @import does not expand "~", so the path is absolute.
+ * The fallback block keeps rofi usable before the first render. */
+
+* {
+    background:      #11161aEE;
+    background-alt:  #1b2228FF;
+    foreground:      #dfe6edFF;
+    selected:        #8ab4f8FF;
+    active:          #e6c2a6FF;
+    urgent:          #ffb4abFF;
+}
+
+@import "/home/robbe/my-dots/generated/rofi-colors.rasi"
+
+* {
+    spacing:    0;
+    text-color: @foreground;
+    font:       "Rubik 12";
+}
+
+configuration {
+    modi:                "drun,run";
+    show-icons:          true;
+    drun-display-format: "{name}";
+    display-drun:        "Apps";
+}
+
+window {
+    transparency:    "real";
+    location:        center;
+    width:           600px;
+    border-radius:   12px;
+    background-color: @background;
+}
+
+mainbox {
+    padding:  12px;
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    background-color: @background-alt;
+    border-radius:    8px;
+    padding:          10px 14px;
+    margin:           0px 0px 10px 0px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    text-color: @selected;
+    margin:     0px 8px 0px 0px;
+}
+
+entry {
+    placeholder:       "Search…";
+    placeholder-color: @foreground;
+}
+
+listview {
+    lines:     8;
+    columns:   1;
+    scrollbar: false;
+}
+
+element {
+    padding:       8px 12px;
+    border-radius: 8px;
+    spacing:       10px;
+}
+
+element selected {
+    background-color: @selected;
+    text-color:       @background;
+}
+
+element-icon {
+    size:           1.4em;
+    vertical-align: 0.5;
+}
+
+element-text {
+    vertical-align: 0.5;
+}
