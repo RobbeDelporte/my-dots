@@ -78,6 +78,14 @@ element selected {
     text-color:       @background;
 }
 
+element normal.active {
+    text-color: @active;
+}
+
+element normal.urgent {
+    text-color: @urgent;
+}
+
 element-icon {
     size:           1.4em;
     vertical-align: 0.5;
