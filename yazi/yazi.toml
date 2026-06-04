@@ -1,6 +1,6 @@
-# yazi core config. Tracked in ~/my-dots/yazi/ and symlinked to
-# ~/.config/yazi/ by scripts/install.sh. Keep this lean and let yazi's
-# built-in defaults handle anything we don't explicitly override.
+# yazi core config. Tracked in ~/my-dots/yazi/; ~/.config/yazi is a manual
+# whole-dir symlink to this repo dir (see README). Keep this lean and let
+# yazi's built-in defaults handle anything we don't explicitly override.
 
 [mgr]
 show_hidden = false

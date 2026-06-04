@@ -7,8 +7,8 @@
 
 # NOTE: ~/.config/hypr is a whole-dir symlink to the repo, so matugen must NOT
 # write inside it (it would clobber the tracked static fallback hypr/colors.conf).
-# Generated colors go to a state path; hyprland.conf sources the static fallback
-# first, then this override.
+# Generated colors go to ~/my-dots/generated/; hyprland.conf sources the static
+# fallback first, then this override.
 [templates.hypr-colors]
 input_path  = "~/.config/matugen/templates/hypr-colors.tmpl"
 output_path = "~/my-dots/generated/hypr-colors.conf"
@@ -22,8 +22,9 @@ post_hook   = "hyprctl reload >/dev/null 2>&1"
 [templates.kitty]
 input_path  = "~/.config/matugen/templates/kitty.tmpl"
 output_path = "~/my-dots/generated/kitty.conf"
-# Shared state dir (same place hyprland/hyprlock colors go), NOT kitty's config
-# dir — kitty.conf includes it by absolute path. kitty re-reads kitty.conf (and
+# Output goes to ~/my-dots/generated/ (same gitignored sink as hyprland/hyprlock
+# colors), NOT kitty's config dir — kitty.conf includes it by absolute path.
+# kitty re-reads kitty.conf (and
 # its includes) on SIGUSR1, re-applying colors to every open window. wayle runs
 # this post_hook on every matugen render — wallpaper set AND scheme change — so
 # the terminal tracks the palette live. Redirect all output: wayle captures
@@ -49,7 +50,7 @@ output_path = "~/.config/yazi/theme.toml"
 # libadwaita names for GTK4 apps and stock-Adwaita @theme_* names for GTK3, so
 # no theme package (e.g. adw-gtk3) is required. One template per file, duplicated
 # across both toolkit dirs since matugen maps one template to one output.
-# ~/.config/gtk-{3.0,4.0} are REAL dirs (install.sh mkdirs them); only `bookmarks`
+# ~/.config/gtk-{3.0,4.0} are REAL dirs (created manually); only `bookmarks`
 # there is user data. GTK reads these at app startup — apps re-theme on relaunch.
 [templates.gtk3]
 input_path  = "~/.config/matugen/templates/gtk-colors.tmpl"

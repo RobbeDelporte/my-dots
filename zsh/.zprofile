@@ -1,4 +1,4 @@
-# ~/.zprofile — tracked in ~/my-dots/zsh/.zprofile (symlinked by scripts/install.sh)
+# ~/.zprofile — tracked in ~/my-dots/zsh/.zprofile (symlinked manually into ~; see README + bin/doctor.sh)
 #
 # Auto-start a Hyprland session via UWSM on TTY1 (matches caelestia's upstream
 # recommendation). Other TTYs fall through to a normal shell.
