@@ -1,5 +1,80 @@
+[general]
+font-sans = "Rubik"
+font-mono = "CaskaydiaCove Nerd Font"
+
 [bar]
+scale = 0.800000011920929
 rounding = "sm"
+button-variant = "basic"
+
+[[bar.layout]]
+monitor = "*"
+show = true
+left = [
+    "dashboard",
+    "hyprland-workspaces",
+]
+center = [
+    "clock",
+    "notifications",
+    "media",
+]
+right = [
+    { name = "group", modules = [
+    "cpu",
+    "ram",
+] },
+    "volume",
+    "network",
+    "bluetooth",
+    "battery",
+]
+
+[[bar.layout]]
+monitor = "HDMI-A-1"
+show = false
+left = ["media"]
+center = ["clock"]
+right = [
+    "battery",
+    "bluetooth",
+    "network",
+    "microphone",
+    "volume",
+]
+
+[[bar.layout]]
+monitor = "DP-1"
+show = false
+left = ["media"]
+center = ["clock"]
+right = [
+    "battery",
+    "bluetooth",
+    "network",
+    "microphone",
+    "volume",
+]
+
+[styling]
+theme-provider = "matugen"
+matugen-scheme = "tonal-spot"
+matugen-light = false
 
 [modules.bluetooth]
 label-show = false
+
+[modules.clock]
+format = "%a %b %d %H:%M"
+
+[modules.hyprland-workspaces]
+monitor-specific = false
+show-special = false
+app-icons-show = true
+
+[modules.storage]
+mount-point = "/home"
+
+[wallpaper]
+transition-type = "none"
+transition-duration = 0.10000000149011612

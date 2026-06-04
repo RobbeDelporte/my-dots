@@ -37,11 +37,11 @@ matugen renders templates (`matugen/templates/`) to **`generated/`** (gitignored
 
 ## wayle
 
-`~/.config/wayle` is a whole-dir symlink to `wayle/`. wayle layers config as:
+`~/.config/wayle` is a whole-dir symlink to `wayle/`. This setup is **GUI-driven**: you change settings in the wayle settings app, which writes **`runtime.toml`** — the **single tracked source of truth** (`my-dots/wayle/runtime.toml`). Because the whole dir is symlinked, those GUI writes land in the tracked file automatically, so your changes show up in `git status`.
 
-    defaults  ->  config.toml  ->  runtime.toml (GUI scratch)
+wayle layers config as `defaults → config.toml → runtime.toml`; since everything lives in `runtime.toml`, **`config.toml` is intentionally empty and gitignored** (it's wayle's optional hand-edit layer, unused here). Everything else in the dir (`schema.json`, `config.toml.example`, `themes/`, `styles/`, `tombi.toml`) is wayle-generated and gitignored too — so `wayle/` tracks exactly one file. **`styling.theme-provider` must stay `"matugen"`** (self-theme from the wallpaper).
 
-Both `config.toml` and `runtime.toml` are tracked. The wayle-settings GUI / `wayle config set` write `runtime.toml` (via atomic rename) — because the whole dir is symlinked, those writes land in the tracked `wayle/runtime.toml` automatically, so GUI edits show up in `git status`. Everything else in the dir (`schema.json`, `config.toml.example`, `themes/`, `styles/`, `tombi.toml`) is wayle-generated and gitignored. **`styling.theme-provider` must stay `"matugen"`** (self-theme from the wallpaper).
+Note: wayle reformats `runtime.toml` (strips comments, reorders, expands floats) whenever the GUI writes it — expected. If the live bar ever ignores GUI edits right after a dotfiles change, run `wayle panel restart` (the daemon needs to re-attach to the dir).
 
 **Do not remove the `awww` package** — it is wayle's wallpaper backend daemon (`wayle wallpaper set` drives `awww-daemon`). Removing it breaks wallpapers and the matugen self-theming chain.
 
