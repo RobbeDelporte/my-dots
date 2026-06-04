@@ -1,0 +1,125 @@
+[mgr]
+cwd            = { fg = "#{{ primary.hex }}", bold = true }
+hovered        = { fg = "#{{ onPrimaryContainer.hex }}", bg = "#{{ primaryContainer.hex }}" }
+preview_hovered = { underline = true }
+
+find_keyword  = { fg = "#{{ tertiary.hex }}", italic = true }
+find_position = { fg = "#{{ tertiaryDim.hex }}", italic = true }
+
+marker_copied   = { fg = "#{{ secondary.hex }}", bg = "#{{ secondary.hex }}" }
+marker_cut      = { fg = "#{{ error.hex }}", bg = "#{{ error.hex }}" }
+marker_marked   = { fg = "#{{ primary.hex }}", bg = "#{{ primary.hex }}" }
+marker_selected = { fg = "#{{ secondary.hex }}", bg = "#{{ secondary.hex }}" }
+
+tab_active   = { fg = "#{{ onPrimary.hex }}", bg = "#{{ primary.hex }}" }
+tab_inactive = { fg = "#{{ onSurface.hex }}", bg = "#{{ surfaceContainer.hex }}" }
+tab_width    = 1
+
+border_symbol = "│"
+border_style  = { fg = "#{{ outline.hex }}" }
+
+syntect_theme = ""
+
+[mode]
+normal_main = { fg = "#{{ onPrimary.hex }}", bg = "#{{ primary.hex }}", bold = true }
+normal_alt  = { fg = "#{{ primary.hex }}", bg = "#{{ surfaceContainerHigh.hex }}" }
+select_main = { fg = "#{{ onTertiary.hex }}", bg = "#{{ tertiary.hex }}", bold = true }
+select_alt  = { fg = "#{{ tertiary.hex }}", bg = "#{{ surfaceContainerHigh.hex }}" }
+unset_main  = { fg = "#{{ onError.hex }}", bg = "#{{ error.hex }}", bold = true }
+unset_alt   = { fg = "#{{ error.hex }}", bg = "#{{ surfaceContainerHigh.hex }}" }
+
+[status]
+separator_open  = ""
+separator_close = ""
+separator_style = { fg = "#{{ surfaceContainerHigh.hex }}", bg = "#{{ surfaceContainerHigh.hex }}" }
+
+progress_label  = { fg = "#{{ onPrimary.hex }}", bold = true }
+progress_normal = { fg = "#{{ primary.hex }}", bg = "#{{ surfaceContainerHigh.hex }}" }
+progress_error  = { fg = "#{{ error.hex }}", bg = "#{{ surfaceContainerHigh.hex }}" }
+
+permissions_t = { fg = "#{{ term3.hex }}" }
+permissions_r = { fg = "#{{ term2.hex }}" }
+permissions_w = { fg = "#{{ term1.hex }}" }
+permissions_x = { fg = "#{{ term4.hex }}" }
+permissions_s = { fg = "#{{ term5.hex }}" }
+
+[input]
+border   = { fg = "#{{ primary.hex }}" }
+title    = { fg = "#{{ onSurface.hex }}" }
+value    = { fg = "#{{ onSurface.hex }}" }
+selected = { reversed = true }
+
+[confirm]
+border   = { fg = "#{{ primary.hex }}" }
+title    = { fg = "#{{ onSurface.hex }}" }
+content  = { fg = "#{{ onSurface.hex }}" }
+list     = { fg = "#{{ tertiary.hex }}" }
+btn_yes  = { fg = "#{{ onPrimary.hex }}", bg = "#{{ primary.hex }}", bold = true }
+btn_no   = { fg = "#{{ onError.hex }}", bg = "#{{ error.hex }}" }
+btn_labels = [ "  [Y]es  ", "  [N]o  " ]
+
+[select]
+border    = { fg = "#{{ primary.hex }}" }
+active    = { fg = "#{{ primaryContainer.hex }}" }
+inactive  = {}
+
+[pick]
+border   = { fg = "#{{ primary.hex }}" }
+active   = { fg = "#{{ primaryContainer.hex }}" }
+inactive = {}
+
+[tasks]
+border  = { fg = "#{{ outline.hex }}" }
+title   = { fg = "#{{ primary.hex }}" }
+hovered = { underline = true }
+
+[which]
+cand            = { fg = "#{{ primary.hex }}" }
+rest            = { fg = "#{{ onSurfaceVariant.hex }}" }
+desc            = { fg = "#{{ onSurfaceVariant.hex }}" }
+separator       = "  "
+separator_style = { fg = "#{{ outline.hex }}" }
+mask            = { bg = "#{{ surfaceContainerHigh.hex }}" }
+
+[help]
+on      = { fg = "#{{ primary.hex }}" }
+run     = { fg = "#{{ onSurface.hex }}" }
+desc    = { fg = "#{{ onSurfaceVariant.hex }}" }
+hovered = { fg = "#{{ onPrimaryContainer.hex }}", bg = "#{{ primaryContainer.hex }}" }
+footer  = { fg = "#{{ onSurfaceVariant.hex }}", bg = "#{{ surfaceContainer.hex }}" }
+
+[notify]
+title_info  = { fg = "#{{ primary.hex }}" }
+title_warn  = { fg = "#{{ term3.hex }}" }
+title_error = { fg = "#{{ error.hex }}" }
+
+[spot]
+border  = { fg = "#{{ primary.hex }}" }
+title   = { fg = "#{{ primary.hex }}" }
+tbl_col = { fg = "#{{ onSurfaceVariant.hex }}" }
+tbl_cell = { fg = "#{{ onSurface.hex }}", bg = "#{{ surfaceContainer.hex }}" }
+
+[filetype]
+rules = [
+    # Images
+    { mime = "image/*", fg = "#{{ term5.hex }}" },
+    # Videos
+    { mime = "video/*", fg = "#{{ term3.hex }}" },
+    # Audio
+    { mime = "audio/*", fg = "#{{ term6.hex }}" },
+    # Archives
+    { mime = "application/zip", fg = "#{{ term4.hex }}" },
+    { mime = "application/x-tar", fg = "#{{ term4.hex }}" },
+    { mime = "application/x-bzip2", fg = "#{{ term4.hex }}" },
+    { mime = "application/x-7z-compressed", fg = "#{{ term4.hex }}" },
+    { mime = "application/x-rar", fg = "#{{ term4.hex }}" },
+    { mime = "application/gzip", fg = "#{{ term4.hex }}" },
+    { mime = "application/xz", fg = "#{{ term4.hex }}" },
+    # Documents
+    { mime = "application/pdf", fg = "#{{ term1.hex }}" },
+    # Fallback (dirs are styled via [mgr], not filetype rules in yazi 26.x)
+    { url = "*", is = "exec", fg = "#{{ term2.hex }}" },
+    { url = "*", is = "link", fg = "#{{ term6.hex }}" },
+    { url = "*", is = "orphan", fg = "#{{ error.hex }}" },
+    { url = "*", fg = "#{{ onSurface.hex }}" },
+]

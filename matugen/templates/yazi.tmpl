@@ -1,0 +1,125 @@
+[mgr]
+cwd            = { fg = "#{{colors.primary.default.hex_stripped}}", bold = true }
+hovered        = { fg = "#{{colors.on_primary_container.default.hex_stripped}}", bg = "#{{colors.primary_container.default.hex_stripped}}" }
+preview_hovered = { underline = true }
+
+find_keyword  = { fg = "#{{colors.tertiary.default.hex_stripped}}", italic = true }
+find_position = { fg = "#{{colors.tertiary_fixed_dim.default.hex_stripped}}", italic = true }
+
+marker_copied   = { fg = "#{{colors.secondary.default.hex_stripped}}", bg = "#{{colors.secondary.default.hex_stripped}}" }
+marker_cut      = { fg = "#{{colors.error.default.hex_stripped}}", bg = "#{{colors.error.default.hex_stripped}}" }
+marker_marked   = { fg = "#{{colors.primary.default.hex_stripped}}", bg = "#{{colors.primary.default.hex_stripped}}" }
+marker_selected = { fg = "#{{colors.secondary.default.hex_stripped}}", bg = "#{{colors.secondary.default.hex_stripped}}" }
+
+tab_active   = { fg = "#{{colors.on_primary.default.hex_stripped}}", bg = "#{{colors.primary.default.hex_stripped}}" }
+tab_inactive = { fg = "#{{colors.on_surface.default.hex_stripped}}", bg = "#{{colors.surface_container.default.hex_stripped}}" }
+tab_width    = 1
+
+border_symbol = "│"
+border_style  = { fg = "#{{colors.outline.default.hex_stripped}}" }
+
+syntect_theme = ""
+
+[mode]
+normal_main = { fg = "#{{colors.on_primary.default.hex_stripped}}", bg = "#{{colors.primary.default.hex_stripped}}", bold = true }
+normal_alt  = { fg = "#{{colors.primary.default.hex_stripped}}", bg = "#{{colors.surface_container_high.default.hex_stripped}}" }
+select_main = { fg = "#{{colors.on_tertiary.default.hex_stripped}}", bg = "#{{colors.tertiary.default.hex_stripped}}", bold = true }
+select_alt  = { fg = "#{{colors.tertiary.default.hex_stripped}}", bg = "#{{colors.surface_container_high.default.hex_stripped}}" }
+unset_main  = { fg = "#{{colors.on_error.default.hex_stripped}}", bg = "#{{colors.error.default.hex_stripped}}", bold = true }
+unset_alt   = { fg = "#{{colors.error.default.hex_stripped}}", bg = "#{{colors.surface_container_high.default.hex_stripped}}" }
+
+[status]
+separator_open  = ""
+separator_close = ""
+separator_style = { fg = "#{{colors.surface_container_high.default.hex_stripped}}", bg = "#{{colors.surface_container_high.default.hex_stripped}}" }
+
+progress_label  = { fg = "#{{colors.on_primary.default.hex_stripped}}", bold = true }
+progress_normal = { fg = "#{{colors.primary.default.hex_stripped}}", bg = "#{{colors.surface_container_high.default.hex_stripped}}" }
+progress_error  = { fg = "#{{colors.error.default.hex_stripped}}", bg = "#{{colors.surface_container_high.default.hex_stripped}}" }
+
+permissions_t = { fg = "#f9e2af" }
+permissions_r = { fg = "#a6e3a1" }
+permissions_w = { fg = "#f38ba8" }
+permissions_x = { fg = "#89b4fa" }
+permissions_s = { fg = "#f5c2e7" }
+
+[input]
+border   = { fg = "#{{colors.primary.default.hex_stripped}}" }
+title    = { fg = "#{{colors.on_surface.default.hex_stripped}}" }
+value    = { fg = "#{{colors.on_surface.default.hex_stripped}}" }
+selected = { reversed = true }
+
+[confirm]
+border   = { fg = "#{{colors.primary.default.hex_stripped}}" }
+title    = { fg = "#{{colors.on_surface.default.hex_stripped}}" }
+content  = { fg = "#{{colors.on_surface.default.hex_stripped}}" }
+list     = { fg = "#{{colors.tertiary.default.hex_stripped}}" }
+btn_yes  = { fg = "#{{colors.on_primary.default.hex_stripped}}", bg = "#{{colors.primary.default.hex_stripped}}", bold = true }
+btn_no   = { fg = "#{{colors.on_error.default.hex_stripped}}", bg = "#{{colors.error.default.hex_stripped}}" }
+btn_labels = [ "  [Y]es  ", "  [N]o  " ]
+
+[select]
+border    = { fg = "#{{colors.primary.default.hex_stripped}}" }
+active    = { fg = "#{{colors.primary_container.default.hex_stripped}}" }
+inactive  = {}
+
+[pick]
+border   = { fg = "#{{colors.primary.default.hex_stripped}}" }
+active   = { fg = "#{{colors.primary_container.default.hex_stripped}}" }
+inactive = {}
+
+[tasks]
+border  = { fg = "#{{colors.outline.default.hex_stripped}}" }
+title   = { fg = "#{{colors.primary.default.hex_stripped}}" }
+hovered = { underline = true }
+
+[which]
+cand            = { fg = "#{{colors.primary.default.hex_stripped}}" }
+rest            = { fg = "#{{colors.on_surface_variant.default.hex_stripped}}" }
+desc            = { fg = "#{{colors.on_surface_variant.default.hex_stripped}}" }
+separator       = "  "
+separator_style = { fg = "#{{colors.outline.default.hex_stripped}}" }
+mask            = { bg = "#{{colors.surface_container_high.default.hex_stripped}}" }
+
+[help]
+on      = { fg = "#{{colors.primary.default.hex_stripped}}" }
+run     = { fg = "#{{colors.on_surface.default.hex_stripped}}" }
+desc    = { fg = "#{{colors.on_surface_variant.default.hex_stripped}}" }
+hovered = { fg = "#{{colors.on_primary_container.default.hex_stripped}}", bg = "#{{colors.primary_container.default.hex_stripped}}" }
+footer  = { fg = "#{{colors.on_surface_variant.default.hex_stripped}}", bg = "#{{colors.surface_container.default.hex_stripped}}" }
+
+[notify]
+title_info  = { fg = "#{{colors.primary.default.hex_stripped}}" }
+title_warn  = { fg = "#f9e2af" }
+title_error = { fg = "#{{colors.error.default.hex_stripped}}" }
+
+[spot]
+border  = { fg = "#{{colors.primary.default.hex_stripped}}" }
+title   = { fg = "#{{colors.primary.default.hex_stripped}}" }
+tbl_col = { fg = "#{{colors.on_surface_variant.default.hex_stripped}}" }
+tbl_cell = { fg = "#{{colors.on_surface.default.hex_stripped}}", bg = "#{{colors.surface_container.default.hex_stripped}}" }
+
+[filetype]
+rules = [
+    # Images
+    { mime = "image/*", fg = "#f5c2e7" },
+    # Videos
+    { mime = "video/*", fg = "#f9e2af" },
+    # Audio
+    { mime = "audio/*", fg = "#94e2d5" },
+    # Archives
+    { mime = "application/zip", fg = "#89b4fa" },
+    { mime = "application/x-tar", fg = "#89b4fa" },
+    { mime = "application/x-bzip2", fg = "#89b4fa" },
+    { mime = "application/x-7z-compressed", fg = "#89b4fa" },
+    { mime = "application/x-rar", fg = "#89b4fa" },
+    { mime = "application/gzip", fg = "#89b4fa" },
+    { mime = "application/xz", fg = "#89b4fa" },
+    # Documents
+    { mime = "application/pdf", fg = "#f38ba8" },
+    # Fallback (dirs are styled via [mgr], not filetype rules in yazi 26.x)
+    { url = "*", is = "exec", fg = "#a6e3a1" },
+    { url = "*", is = "link", fg = "#94e2d5" },
+    { url = "*", is = "orphan", fg = "#{{colors.error.default.hex_stripped}}" },
+    { url = "*", fg = "#{{colors.on_surface.default.hex_stripped}}" },
+]

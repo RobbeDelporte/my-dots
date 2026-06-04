@@ -1,0 +1,56 @@
+# yazi core config. Tracked in ~/my-dots/yazi/ and symlinked to
+# ~/.config/yazi/ by scripts/install.sh. Keep this lean and let yazi's
+# built-in defaults handle anything we don't explicitly override.
+
+[mgr]
+show_hidden = false
+sort_by     = "natural"
+sort_sensitive = false
+sort_reverse   = false
+sort_dir_first = true
+linemode    = "size"
+show_symlink = true
+
+[preview]
+max_width  = 600
+max_height = 900
+cache_dir  = ""
+image_filter = "triangle"
+image_quality = 75
+
+[opener]
+edit = [
+    { run = 'nvim "$@"', desc = "Open in Neovim", block = true, for = "linux" },
+]
+open = [
+    { run = 'xdg-open "$@"', desc = "Open with xdg-open", for = "linux" },
+]
+reveal = [
+    { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal in xdg-open", for = "linux" },
+]
+glow = [
+    { run = 'glow -p "$@"', desc = "Preview with glow", block = true, for = "linux" },
+]
+
+[open]
+prepend_rules = [
+    { url = "*.md",   use = "glow" },
+    { url = "*.txt",  use = "edit" },
+    { url = "*.json", use = "edit" },
+    { url = "*.toml", use = "edit" },
+    { url = "*.yaml", use = "edit" },
+    { url = "*.yml",  use = "edit" },
+    { url = "*.conf", use = "edit" },
+    { url = "*.lua",  use = "edit" },
+    { url = "*.py",   use = "edit" },
+    { url = "*.sh",   use = "edit" },
+    { mime = "text/*", use = "edit" },
+]
+
+[tasks]
+micro_workers    = 10
+macro_workers    = 10
+bizarre_retry    = 3
+image_alloc      = 536870912
+image_bound      = [0, 0]
+suppress_preload = false

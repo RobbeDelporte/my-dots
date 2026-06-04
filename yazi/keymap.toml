@@ -1,0 +1,17 @@
+# yazi keymap. Empty scaffolding — yazi's built-in keymap is in effect
+# until something is added here. Drop overrides in the manager/input
+# blocks via `[[mgr.prepend_keymap]]` / `[[input.prepend_keymap]]`.
+
+# Smart-enter: <Enter> and `l` both enter dirs OR open files with one key.
+# Without this, <Enter> only opens, and `l` only cds — and entering a
+# dir-with-a-single-file would still take two keystrokes.
+
+[[mgr.prepend_keymap]]
+on   = "<Enter>"
+run  = "plugin smart-enter"
+desc = "Enter dir / open file (smart-enter)"
+
+[[mgr.prepend_keymap]]
+on   = "l"
+run  = "plugin smart-enter"
+desc = "Enter dir / open file (smart-enter, vim style)"
