@@ -19,3 +19,10 @@ Thumbs.db
 
 # Host-specific symlink (managed by install.sh)
 hypr/monitors.conf
+
+# matugen-generated colour files (clobbered on every wallpaper render)
+rofi/colors.rasi
+yazi/theme.toml
+
+# adi1090x sample backgrounds (~13M); kept on disk, out of version control
+rofi/images/

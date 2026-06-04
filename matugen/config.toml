@@ -31,10 +31,6 @@ output_path = "~/.local/state/wayle/kitty.conf"
 # `|| true` so a render with no kitty running never fails the pipeline.
 post_hook   = "pkill -USR1 kitty >/dev/null 2>&1 || true"
 
-[templates.fuzzel]
-input_path  = "~/.config/matugen/templates/fuzzel.tmpl"
-output_path = "~/.config/fuzzel/colors.ini"
-
 [templates.rofi]
 input_path  = "~/.config/matugen/templates/rofi.tmpl"
 output_path = "~/.config/rofi/colors.rasi"
@@ -44,10 +40,6 @@ output_path = "~/.config/rofi/colors.rasi"
 [templates.hyprlock]
 input_path  = "~/.config/matugen/templates/hyprlock.tmpl"
 output_path = "~/.local/state/wayle/hyprlock-colors.conf"
-
-[templates.wlogout]
-input_path  = "~/.config/matugen/templates/wlogout.tmpl"
-output_path = "~/.config/wlogout/colors.css"
 
 [templates.yazi]
 input_path  = "~/.config/matugen/templates/yazi.tmpl"
