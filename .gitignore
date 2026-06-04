@@ -9,8 +9,9 @@
 .DS_Store
 Thumbs.db
 
-# Superpowers brainstorm sessions
+# Superpowers brainstorm sessions + specs/plans
 .superpowers/
+docs/superpowers/
 
 # Secrets (never commit)
 .env
