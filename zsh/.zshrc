@@ -43,10 +43,3 @@ add-zsh-hook precmd _osc133_prompt_mark
 if command -v eza >/dev/null 2>&1; then
     alias ls='eza --icons --group-directories-first -1'
 fi
-
-# Interactive greeting.
-if [[ -o interactive ]]; then
-    printf '\e[38;5;16m'
-    printf '\e[0m'
-    command -v fastfetch >/dev/null 2>&1 && fastfetch --key-padding-left 5
-fi
