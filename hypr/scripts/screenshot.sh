@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Screenshot capture for Hyprland: grab a target with grimblast, pipe it into a
+# Screenshot capture for Hyprland: grab a target with grimblast, open it in a
 # floating satty window to annotate, then copy-to-clipboard or save from satty.
 # Save path, copy command, and early-exit live in satty's config.toml
 # (~/.config/satty/config.toml) so the swayimg "e -> satty" path behaves the same.
@@ -18,8 +18,15 @@ esac
 # satty saves here (see satty/config.toml output-filename); make sure it exists.
 mkdir -p "$HOME/Pictures/Screenshots"
 
+# Capture to a temp file first: a cancelled selection (Escape during slurp) then
+# exits cleanly via "|| exit 0" instead of launching satty with empty input.
+tmp=$(mktemp --suffix=.png)
+trap 'rm -f "$tmp"' EXIT
+
 case "$target" in
-	screen) grimblast save screen - ;;
-	region) grimblast --freeze save area - ;;
-	window) grimblast save active - ;;
-esac | satty --filename -
+	screen) grimblast save screen "$tmp" ;;
+	region) grimblast --freeze save area "$tmp" ;;
+	window) grimblast save active "$tmp" ;;
+esac || exit 0
+
+satty --filename "$tmp"
