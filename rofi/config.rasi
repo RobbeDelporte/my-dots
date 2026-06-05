@@ -23,12 +23,12 @@
     font:       "Rubik 12";
 }
 
-configuration {
+configuration 
     modi:                "drun,run";
     show-icons:          true;
     drun-display-format: "{name}";
     display-drun:        "Apps";
-}
+
 
 window {
     transparency:    "real";
@@ -71,6 +71,14 @@ element {
     padding:       8px 12px;
     border-radius: 8px;
     spacing:       10px;
+}
+
+/* Kill rofi's default alternating-row stripes: force both row states to the
+ * same (transparent) background so the window @background shows through. */
+element normal.normal,
+element alternate.normal {
+    background-color: transparent;
+    text-color:       @foreground;
 }
 
 element selected {
