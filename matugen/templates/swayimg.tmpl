@@ -19,13 +19,15 @@ swayimg.gallery.set_unselected_color(0xff{{colors.surface_container.default.hex_
 swayimg.gallery.set_selected_color(0xff{{colors.primary_container.default.hex_stripped}})
 swayimg.gallery.set_border_color(0xff{{colors.primary.default.hex_stripped}})
 
--- Annotate: send the current image to satty. Single-quote the path and escape any
--- embedded single quotes (POSIX 'foo'\''bar') so odd filenames don't break the shell.
+-- Annotate: send the current image to satty. POSIX-escape single quotes in the
+-- path (' -> '\'') so odd filenames (spaces, apostrophes) don't break the shell.
+-- The backslash is built via string.char(92) because matugen collapses literal
+-- backslashes on render — a literal "\\" here would reach Lua as just "\".
+local BS = string.char(92)
+local function shq(p) return "'" .. p:gsub("'", "'" .. BS .. "''") .. "'" end
 swayimg.viewer.on_key("e", function()
-  local path = swayimg.viewer.get_image().path:gsub("'", "'\\''")
-  os.execute("satty --filename '" .. path .. "' &")
+  os.execute("satty --filename " .. shq(swayimg.viewer.get_image().path) .. " &")
 end)
 swayimg.gallery.on_key("e", function()
-  local path = swayimg.gallery.get_image().path:gsub("'", "'\\''")
-  os.execute("satty --filename '" .. path .. "' &")
+  os.execute("satty --filename " .. shq(swayimg.gallery.get_image().path) .. " &")
 end)
