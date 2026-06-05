@@ -30,15 +30,3 @@ swayimg.gallery.on_key("g", function() swayimg.set_mode("viewer") end)
 -- panning (pan stays on mouse drag + scroll); PgDn/PgUp also navigate by default.
 swayimg.viewer.on_key("Right", function() swayimg.viewer.switch_image("next") end)
 swayimg.viewer.on_key("Left", function() swayimg.viewer.switch_image("prev") end)
-
--- Zoom: Ctrl+scroll zooms at the cursor, one clean step per event. Explicit
--- handlers replace swayimg's built-in zoom, which oscillated direction on the
--- MX Master's high-resolution scroll wheel.
-swayimg.viewer.on_mouse("Ctrl-ScrollUp", function()
-  local p = swayimg.get_mouse_pos()
-  swayimg.viewer.set_abs_scale(swayimg.viewer.get_scale() * 1.1, p.x, p.y)
-end)
-swayimg.viewer.on_mouse("Ctrl-ScrollDown", function()
-  local p = swayimg.get_mouse_pos()
-  swayimg.viewer.set_abs_scale(swayimg.viewer.get_scale() / 1.1, p.x, p.y)
-end)
