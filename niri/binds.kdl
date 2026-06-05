@@ -1,0 +1,122 @@
+// Keybinds — comprehensive port of hypr/hyprland/keybinds.conf, mapped to niri's
+// scrollable-tiling idioms. Mod = Super. Pragmatic notes:
+//   - Window "groups" → niri columns (consume/expel + tabbed display).
+//   - Super+Tab (hypr window-switcher.sh, hyprctl-based) → niri's native overview.
+//   - Super+Comma/Period reused for niri consume/expel; emoji moved to Mod+Ctrl+E.
+//   - No niri equivalent: pin (dropped), special-workspace toggles (see window-rules / notes).
+binds {
+    // ── Apps / launcher ──
+    Mod+Space   hotkey-overlay-title="App launcher"    { spawn "sh" "-c" "pkill -x rofi || rofi -show drun"; }
+    Mod+Tab     hotkey-overlay-title="Overview"        { toggle-overview; }
+    Mod+Shift+W hotkey-overlay-title="Wallpaper picker" { spawn "sh" "-c" "~/.config/hypr/scripts/wallpicker.sh"; }
+    Mod+T       hotkey-overlay-title="Terminal"        { spawn "kitty"; }
+    Mod+Return                                         { spawn "kitty"; }
+
+    // ── Clipboard / emoji ──
+    Mod+V       { spawn "sh" "-c" "pkill -x rofi || cliphist list | rofi -dmenu | cliphist decode | wl-copy"; }
+    Mod+Ctrl+E  { spawn "sh" "-c" "BEMOJI_PICKER_CMD='rofi -dmenu' bemoji"; }
+    Ctrl+Shift+Alt+V { spawn "sh" "-c" "sleep 0.5; ydotool type -d 1 \"$(cliphist list | head -1 | cliphist decode)\""; }
+
+    // ── Session / power ──
+    Mod+Ctrl+Shift+R { spawn "wayle" "panel" "restart"; }
+    Mod+Shift+E      { quit; }                                            // exit session → greeter/TTY
+    Mod+Shift+L      { spawn "systemctl" "suspend-then-hibernate"; }
+
+    // ── Lock (interim hyprlock; Plan C swaps to qylock) ──
+    Mod+L      { spawn "sh" "-c" "~/.config/hypr/scripts/lock.sh"; }
+    Mod+Escape { spawn "sh" "-c" "~/.config/hypr/scripts/lock.sh"; }
+
+    // ── Window actions ──
+    Mod+Q          { close-window; }
+    Mod+F          { fullscreen-window; }                                 // hypr Super+F
+    Mod+Alt+F      { maximize-column; }                                   // hypr Super+Alt+F (bordered fullscreen)
+    Mod+Alt+Space  { toggle-window-floating; }                            // hypr togglefloating
+    Mod+W          { toggle-column-tabbed-display; }                      // hypr togglegroup ≈ tabbed column
+    Mod+Comma      { consume-window-into-column; }
+    Mod+Period     { expel-window-from-column; }
+    Mod+R          { switch-preset-column-width; }
+    Mod+Ctrl+Backslash { center-column; }                                 // hypr centerwindow
+
+    // ── Focus ──
+    Mod+Left     { focus-column-left; }
+    Mod+Right    { focus-column-right; }
+    Mod+Up       { focus-window-up; }
+    Mod+Down     { focus-window-down; }
+
+    // ── Move window / column ──
+    Mod+Shift+Left   { move-column-left; }
+    Mod+Shift+Right  { move-column-right; }
+    Mod+Shift+Up     { move-window-up; }
+    Mod+Shift+Down   { move-window-down; }
+
+    // ── Resize (hypr Super+/-/= width, Super+Shift+/-/= height) ──
+    Mod+Minus        { set-column-width "-10%"; }
+    Mod+Equal        { set-column-width "+10%"; }
+    Mod+Shift+Minus  { set-window-height "-10%"; }
+    Mod+Shift+Equal  { set-window-height "+10%"; }
+
+    // ── Workspaces: focus = Mod+N, move window = Mod+Alt+N (mirrors hypr Super / Super+Alt) ──
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+0 { focus-workspace 10; }
+    Mod+Alt+1 { move-column-to-workspace 1; }
+    Mod+Alt+2 { move-column-to-workspace 2; }
+    Mod+Alt+3 { move-column-to-workspace 3; }
+    Mod+Alt+4 { move-column-to-workspace 4; }
+    Mod+Alt+5 { move-column-to-workspace 5; }
+    Mod+Alt+6 { move-column-to-workspace 6; }
+    Mod+Alt+7 { move-column-to-workspace 7; }
+    Mod+Alt+8 { move-column-to-workspace 8; }
+    Mod+Alt+9 { move-column-to-workspace 9; }
+    Mod+Alt+0 { move-column-to-workspace 10; }
+
+    // Workspace navigation (hypr Ctrl+Super arrows / Super+Page / Super+scroll)
+    Mod+Ctrl+Right { focus-workspace-down; }
+    Mod+Ctrl+Left  { focus-workspace-up; }
+    Mod+Page_Down  { focus-workspace-down; }
+    Mod+Page_Up    { focus-workspace-up; }
+    Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp   cooldown-ms=150 { focus-workspace-up; }
+    Mod+Alt+Page_Down { move-column-to-workspace-down; }
+    Mod+Alt+Page_Up   { move-column-to-workspace-up; }
+    Mod+Alt+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    Mod+Alt+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+
+    // ── Screenshots / recording (screenshot.sh is niri-aware; record.sh is WM-agnostic) ──
+    Print                { spawn "sh" "-c" "~/.config/hypr/scripts/screenshot.sh screen"; }
+    Mod+Shift+S          { spawn "sh" "-c" "~/.config/hypr/scripts/screenshot.sh region"; }
+    Mod+Shift+Alt+S      { spawn "sh" "-c" "~/.config/hypr/scripts/screenshot.sh window"; }
+    Mod+Alt+R            { spawn "sh" "-c" "~/.config/hypr/scripts/record.sh -s"; }
+    Ctrl+Alt+R           { spawn "sh" "-c" "~/.config/hypr/scripts/record.sh"; }
+    Mod+Shift+Alt+R      { spawn "sh" "-c" "~/.config/hypr/scripts/record.sh -r"; }
+    Mod+Shift+C          { spawn "hyprpicker" "-a"; }                     // color picker (works via screencopy)
+
+    // ── Brightness ──
+    XF86MonBrightnessUp    allow-when-locked=true { spawn "brightnessctl" "set" "5%+"; }
+    XF86MonBrightnessDown  allow-when-locked=true { spawn "brightnessctl" "set" "5%-"; }
+
+    // ── Volume / mic ──
+    XF86AudioRaiseVolume   allow-when-locked=true { spawn "sh" "-c" "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 10%+"; }
+    XF86AudioLowerVolume   allow-when-locked=true { spawn "sh" "-c" "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-"; }
+    XF86AudioMute          allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute       allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    Mod+Shift+M            { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+
+    // ── Media ──
+    Mod+Ctrl+Space { spawn "playerctl" "play-pause"; }
+    Mod+Ctrl+Equal { spawn "playerctl" "next"; }
+    Mod+Ctrl+Minus { spawn "playerctl" "previous"; }
+    XF86AudioPlay  allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioNext  allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPrev  allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86AudioStop  allow-when-locked=true { spawn "playerctl" "stop"; }
+
+    Mod+Shift+Slash { show-hotkey-overlay; }
+}

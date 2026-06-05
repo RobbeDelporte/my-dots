@@ -12,6 +12,8 @@ show = true
 left = [
     "dashboard",
     "hyprland-workspaces",
+    "niri-workspaces",
+    "mango-workspaces",
 ]
 center = [
     "clock",
@@ -74,8 +76,16 @@ app-icons-show = true
 [modules.media]
 icon-type = "application"
 
+[modules.niri-workspaces]
+monitor-specific = false
+app-icons-show = true
+
 [modules.storage]
 mount-point = "/home"
+
+[modules.weather]
+location = "Ghent"
+time-format = "24h"
 
 [wallpaper]
 transition-type = "none"

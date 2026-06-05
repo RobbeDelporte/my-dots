@@ -1,0 +1,27 @@
+// Input — mirrors hypr/hyprland/input.conf (pragmatic; Hyprland-only keys dropped).
+input {
+    keyboard {
+        xkb {
+            layout "us"
+        }
+        repeat-delay 250
+        repeat-rate 35
+    }
+
+    touchpad {
+        tap
+        natural-scroll
+        dwt                       // disable-while-typing (hypr: disable_while_typing = true)
+        accel-profile "adaptive"
+        accel-speed -0.1          // hypr touchpad sensitivity = -0.1
+        scroll-factor 1.0
+    }
+
+    mouse {
+        accel-profile "flat"
+        accel-speed -0.35         // hypr sensitivity = -0.35 (range -1.0 slowest … 1.0 fastest)
+    }
+
+    // hypr follow_mouse = 2 → focus follows the pointer
+    focus-follows-mouse
+}

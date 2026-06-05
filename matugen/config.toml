@@ -54,6 +54,14 @@ output_path = "~/my-dots/generated/swayimg-colors.lua"
 # generated/ sink and swayimg/init.lua dofile's it — same include pattern as
 # kitty/rofi/hypr. No post_hook: swayimg reads config fresh on each launch.
 
+[templates.niri]
+input_path  = "~/.config/matugen/templates/niri-colors.tmpl"
+output_path = "~/my-dots/generated/niri-colors.kdl"
+# No post_hook: ~/.config/niri is a whole-dir symlink to the repo, so matugen must
+# NOT write inside it (would clobber tracked config.kdl) — output goes to the
+# generated/ sink and config.kdl `include`s it by absolute path. niri live-reloads
+# watched includes, so the running session re-themes with no signal needed.
+
 # GTK3 + GTK4: one template (gtk-colors.tmpl) drives BOTH color namespaces —
 # libadwaita names for GTK4 apps and stock-Adwaita @theme_* names for GTK3, so
 # no theme package (e.g. adw-gtk3) is required. One template per file, duplicated
