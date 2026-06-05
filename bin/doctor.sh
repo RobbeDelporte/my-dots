@@ -24,6 +24,7 @@ links=(
   "$CFG/wayle|wayle"
   "$CFG/starship.toml|starship.toml"
   "$CFG/mimeapps.list|mimeapps.list"
+  "$CFG/satty|satty"
   "$CFG/gtk-3.0/settings.ini|gtk/settings.ini"
   "$CFG/gtk-4.0/settings.ini|gtk/settings.ini"
   "$HOME/.zshrc|zsh/.zshrc"
