@@ -9,7 +9,7 @@
 # Any invocation while a recording is running STOPS it (and saves the file).
 set -euo pipefail
 
-out_dir="${XDG_VIDEOS_DIR:-$HOME/Videos}"
+out_dir="${XDG_VIDEOS_DIR:-$HOME/Videos}/Screenrecordings"
 mkdir -p "$out_dir"
 
 # Already recording? -> stop, save, notify.
