@@ -25,3 +25,8 @@ end)
 -- Gallery toggle: "g" switches viewer <-> gallery (swayimg's built-in key is Enter).
 swayimg.viewer.on_key("g", function() swayimg.set_mode("gallery") end)
 swayimg.gallery.on_key("g", function() swayimg.set_mode("viewer") end)
+
+-- Navigate: Right/Left -> next/prev image. Overrides swayimg's built-in arrow
+-- panning (pan stays on mouse drag + scroll); PgDn/PgUp also navigate by default.
+swayimg.viewer.on_key("Right", function() swayimg.viewer.switch_image("next") end)
+swayimg.viewer.on_key("Left", function() swayimg.viewer.switch_image("prev") end)
