@@ -56,6 +56,7 @@ right = [
 ]
 
 [styling]
+scale = 1.0
 theme-provider = "matugen"
 matugen-light = false
 
