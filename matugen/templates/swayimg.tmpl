@@ -19,10 +19,13 @@ swayimg.gallery.set_unselected_color(0xff{{colors.surface_container.default.hex_
 swayimg.gallery.set_selected_color(0xff{{colors.primary_container.default.hex_stripped}})
 swayimg.gallery.set_border_color(0xff{{colors.primary.default.hex_stripped}})
 
--- Annotate: send the current image to satty (background so swayimg isn't blocked)
+-- Annotate: send the current image to satty. Single-quote the path and escape any
+-- embedded single quotes (POSIX 'foo'\''bar') so odd filenames don't break the shell.
 swayimg.viewer.on_key("e", function()
-  os.execute("satty --filename '" .. swayimg.viewer.get_image().path .. "' &")
+  local path = swayimg.viewer.get_image().path:gsub("'", "'\\''")
+  os.execute("satty --filename '" .. path .. "' &")
 end)
 swayimg.gallery.on_key("e", function()
-  os.execute("satty --filename '" .. swayimg.gallery.get_image().path .. "' &")
+  local path = swayimg.gallery.get_image().path:gsub("'", "'\\''")
+  os.execute("satty --filename '" .. path .. "' &")
 end)
