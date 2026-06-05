@@ -4,7 +4,6 @@ font-mono = "CaskaydiaCove Nerd Font"
 
 [bar]
 scale = 0.800000011920929
-rounding = "sm"
 button-variant = "basic"
 
 [[bar.layout]]
@@ -58,7 +57,6 @@ right = [
 
 [styling]
 theme-provider = "matugen"
-matugen-scheme = "tonal-spot"
 matugen-light = false
 
 [modules.bluetooth]
@@ -71,6 +69,9 @@ format = "%a %b %d %H:%M"
 monitor-specific = false
 show-special = false
 app-icons-show = true
+
+[modules.media]
+icon-type = "application"
 
 [modules.storage]
 mount-point = "/home"
