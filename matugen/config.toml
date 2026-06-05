@@ -47,11 +47,12 @@ input_path  = "~/.config/matugen/templates/yazi.tmpl"
 output_path = "~/.config/yazi/theme.toml"
 
 [templates.swayimg]
-input_path  = "~/.config/matugen/templates/swayimg.tmpl"
-output_path = "~/.config/swayimg/init.lua"
-# Whole-file Lua config generated straight into swayimg's config dir — same
-# "matugen owns the file" pattern as yazi/theme.toml and gtk.css. No post_hook:
-# swayimg reads init.lua fresh on each launch (like rofi), so nothing to signal.
+input_path  = "~/.config/matugen/templates/swayimg-colors.tmpl"
+output_path = "~/my-dots/generated/swayimg-colors.lua"
+# Colours ONLY. ~/.config/swayimg is a whole-dir symlink to the repo, so matugen
+# must NOT write inside it (would clobber the tracked init.lua). Output goes to the
+# generated/ sink and swayimg/init.lua dofile's it — same include pattern as
+# kitty/rofi/hypr. No post_hook: swayimg reads config fresh on each launch.
 
 # GTK3 + GTK4: one template (gtk-colors.tmpl) drives BOTH color namespaces —
 # libadwaita names for GTK4 apps and stock-Adwaita @theme_* names for GTK3, so
