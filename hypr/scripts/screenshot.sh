@@ -29,4 +29,6 @@ case "$target" in
 	window) grimblast save active "$tmp" ;;
 esac || exit 0
 
-satty --filename "$tmp"
+# --resize smart: satty sizes its own window to the image and ignores Hyprland's
+# size windowrule, so a multi-monitor capture would open wider than one screen.
+satty --resize smart --filename "$tmp"
