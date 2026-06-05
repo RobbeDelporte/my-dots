@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Screen recorder toggle for Hyprland (wf-recorder + slurp).
-# Requires: sudo pacman -S wf-recorder   (slurp is already installed)
+# Requires: wf-recorder, slurp, jq, hyprctl (all present on this setup).
 #
 #   record.sh        full screen, no audio        (Ctrl+Alt+R)
 #   record.sh -s     select a region, no audio    (Super+Alt+R)
@@ -24,11 +24,17 @@ command -v wf-recorder >/dev/null || {
 	exit 1
 }
 
+# With >1 monitor, wf-recorder prompts for an output on stdin and dies instantly
+# when launched from a keybind (no tty). Pin full-screen captures to the focused
+# monitor via -o; region (-g) auto-detects its output from the geometry.
+focused=$(hyprctl monitors -j | jq -r 'first(.[] | select(.focused) | .name)')
+
 file="$out_dir/rec-$(date +%Y%m%d-%H%M%S).mp4"
 args=(-f "$file")
 case "${1:-}" in
-	-s) geom=$(slurp) || exit 0; args+=(-g "$geom") ;;
-	-r) args+=(--audio) ;;
+	-s) geom=$(slurp) || exit 0; args+=(-g "$geom") ;;   # region: output auto-detected
+	-r) args+=(-o "$focused" --audio) ;;                 # full screen, with audio
+	*)  args+=(-o "$focused") ;;                         # full screen, no audio
 esac
 
 notify-send "Recording" "Started → $(basename "$file")" 2>/dev/null || true
