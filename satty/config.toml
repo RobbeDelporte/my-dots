@@ -1,0 +1,15 @@
+# satty annotation editor config (static; not matugen-themed).
+# Save path, copy command, and early-exit live here so BOTH entry points behave
+# the same: hypr/scripts/screenshot.sh and swayimg's "e" key (satty --filename %).
+[general]
+fullscreen = false
+early-exit = true
+corner-roundness = 12
+initial-tool = "brush"
+copy-command = "wl-copy"
+# satty 0.20+ expands ~ and chrono strftime specifiers in output-filename.
+output-filename = "~/Pictures/Screenshots/Screenshot_%Y-%m-%d_%H-%M-%S.png"
+annotation-size-factor = 1.0
+primary-highlighter = "block"
+disable-notifications = false
+default-hide-toolbars = false
