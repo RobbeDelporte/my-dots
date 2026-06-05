@@ -31,3 +31,7 @@ end)
 swayimg.gallery.on_key("e", function()
   os.execute("satty --resize smart --filename " .. shq(swayimg.gallery.get_image().path) .. " &")
 end)
+
+-- Gallery toggle: "g" switches viewer <-> gallery (swayimg's built-in key is Enter).
+swayimg.viewer.on_key("g", function() swayimg.set_mode("gallery") end)
+swayimg.gallery.on_key("g", function() swayimg.set_mode("viewer") end)
