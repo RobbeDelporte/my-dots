@@ -62,6 +62,15 @@ output_path = "~/my-dots/generated/niri-colors.kdl"
 # generated/ sink and config.kdl `include`s it by absolute path. niri live-reloads
 # watched includes, so the running session re-themes with no signal needed.
 
+[templates.nvim]
+input_path  = "~/.config/matugen/templates/nvim.tmpl"
+output_path = "~/my-dots/generated/nvim-colors.lua"
+# No post_hook: nvim reads this palette at startup (on-next-launch). nvim has no
+# live-reload signal like kitty's SIGUSR1, and any unredirected post_hook stdout
+# would corrupt wayle's `matugen --json` palette capture — so none is set.
+# ~/.config/nvim is a whole-dir symlink to the repo, so output goes to the
+# generated/ sink (NOT inside nvim/) and user/configs/catppuccin.lua dofile's it.
+
 # GTK3 + GTK4: one template (gtk-colors.tmpl) drives BOTH color namespaces —
 # libadwaita names for GTK4 apps and stock-Adwaita @theme_* names for GTK3, so
 # no theme package (e.g. adw-gtk3) is required. One template per file, duplicated
