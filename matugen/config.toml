@@ -4,6 +4,15 @@
 # because matugen 4.x has no terminal_color_N roles.
 
 [config]
+# matugen 4.x aborts the ENTIRE render (exit 1, writes nothing) when an image
+# yields multiple candidate source colors AND no TTY is present to prompt — which
+# is exactly how wayle invokes matugen on every wallpaper change. With no
+# preference set, every themed app silently freezes at the last good palette.
+# `prefer` picks a source color non-interactively (CLI `--prefer` equivalent) so
+# headless renders always succeed. "saturation" = most-saturated candidate (vivid
+# accent). Alternatives: darkness, lightness, less-saturation, value,
+# closest-to-fallback.
+prefer = "saturation"
 
 # NOTE: ~/.config/hypr is a whole-dir symlink to the repo, so matugen must NOT
 # write inside it (it would clobber the tracked static fallback hypr/colors.conf).
