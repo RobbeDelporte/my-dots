@@ -60,6 +60,7 @@ right = [
 [styling]
 scale = 1.0
 theme-provider = "matugen"
+matugen-scheme = "fidelity"
 matugen-light = false
 
 [modules.bluetooth]
