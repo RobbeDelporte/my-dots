@@ -22,7 +22,7 @@ binds {
     Mod+Shift+E      { quit; }                                            // exit session → greeter/TTY
     Mod+Shift+L      { spawn "systemctl" "suspend-then-hibernate"; }
 
-    // ── Lock (interim hyprlock; Plan C swaps to qylock) ──
+    // ── Lock (hyprlock — themed + wallpaper-synced; works on niri via ext-session-lock-v1) ──
     Mod+L      { spawn "sh" "-c" "~/.config/hypr/scripts/lock.sh"; }
     Mod+Escape { spawn "sh" "-c" "~/.config/hypr/scripts/lock.sh"; }
 

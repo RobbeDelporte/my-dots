@@ -1,10 +1,10 @@
 # ~/.zprofile — tracked in ~/my-dots/zsh/.zprofile (symlinked manually into ~; see README + bin/doctor.sh)
 #
-# Auto-start a Hyprland session via UWSM on TTY1 (matches caelestia's upstream
-# recommendation). Other TTYs fall through to a normal shell.
+# No display manager: auto-start a Wayland session via UWSM on TTY1. `uwsm select`
+# shows a menu of installed sessions (Hyprland, niri); other TTYs fall through to a
+# normal shell. (A graphical greeter may be added back later.)
 
-# Default editor for git, CLI tools, etc. Set before the session exec below so
-# the whole Hyprland session (and every terminal it spawns) inherits it.
+# Default editor for git, CLI tools, etc. Set before the session exec below.
 export EDITOR=nvim
 export VISUAL=nvim
 
