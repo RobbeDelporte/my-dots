@@ -76,6 +76,7 @@ app-icons-show = true
 
 [modules.media]
 icon-type = "application"
+player-priority = ["*spotifyd*"]
 
 [modules.niri-workspaces]
 monitor-specific = false
