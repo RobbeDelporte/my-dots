@@ -1,0 +1,74 @@
+// Wallpaper clock styles. Palette comes from matugen via the absolute-path
+// @import below (generated/eww-colors.scss); static defaults are declared first
+// so the import only OVERRIDES them. launch.sh guarantees the imported file
+// exists (the Sass engine hard-errors on a missing @import).
+//
+// IMPORTANT: keep this file pure ASCII. eww's Sass engine prepends a
+// `@charset "UTF-8";` rule when the source contains any non-ASCII byte, then
+// rejects its own injected rule ("unknown @ rule") -- which silently drops ALL
+// styles. No box-drawing chars, no smart quotes, no CJK in comments.
+
+// Fallback palette (overridden by the matugen-generated import on a real render).
+$clock-month: #cfcfcf;
+$clock-accent: #8bd0f0;
+$clock-fg: #e8e8e8;
+
+@import "/home/robbe/my-dots/generated/eww-colors.scss";
+
+// Transparent surfaces so only the type shows over the wallpaper.
+window { background-color: transparent; }
+.clock-root { background-color: transparent; }
+
+// Big, low-contrast month -- "blended into the wallpaper".
+.month {
+  font-family: "Black Future";
+  font-size: 120px;
+  // Muted "blended" month. Lower the alpha (raise the transparentize amount)
+  // for a fainter blend, raise it for a bolder month. This is the main knob.
+  color: transparentize($clock-month, 0.45);
+}
+
+.time-row { margin-top: 4px; }
+
+// Short horizontal rule leading into the time.
+.rule {
+  background-color: $clock-accent;
+  min-width: 48px;
+  min-height: 2px;
+  margin-right: 14px;
+}
+
+// Time: Simplified Chinese via Noto Sans CJK SC, brighter accent.
+.time {
+  font-family: "Noto Sans CJK SC";
+  font-size: 34px;
+  font-weight: 600;
+  color: $clock-accent;
+}
+
+// Thin bordered column: day circle on top, weekday rotated below.
+.weekday-box {
+  border: 2px solid transparentize($clock-accent, 0.20);
+  padding: 16px 12px;
+}
+
+// Day number inside a circle.
+.day-circle {
+  font-family: "Noto Sans CJK SC";
+  font-size: 17px;
+  font-weight: 600;
+  color: $clock-accent;
+  border: 2px solid $clock-accent;
+  border-radius: 50%;
+  min-width: 36px;
+  min-height: 36px;
+  margin-bottom: 16px;
+}
+
+// Weekday rotated 90 degrees (label :angle 270 in the .yuck = top-to-bottom).
+.weekday {
+  font-family: "Rubik";
+  font-size: 18px;
+  font-weight: 500;
+  color: transparentize($clock-fg, 0.12);
+}

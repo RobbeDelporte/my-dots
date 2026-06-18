@@ -1,6 +1,8 @@
 // Autostart — mirrors hypr/hyprland/execs.conf (minus hypridle and Hyprland-only
 // commands). wayle pulls in its awww wallpaper backend.
 spawn-at-startup "wayle" "shell"
+// Desktop wallpaper clock (eww): waits for awww, opens one window per output.
+spawn-sh-at-startup "/home/robbe/.config/eww/launch.sh"
 spawn-sh-at-startup "wl-paste --type text --watch cliphist store"
 spawn-sh-at-startup "wl-paste --type image --watch cliphist store"
 spawn-at-startup "ydotoold"

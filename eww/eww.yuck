@@ -1,0 +1,42 @@
+;; Wallpaper clock — "Space" tribute. See docs/superpowers/specs/2026-06-18.
+;; Drawn on the BACKGROUND layer: visible on the empty desktop, hidden behind
+;; windows. Opened once per output by launch.sh; placed by reposition.sh.
+
+;; Time / date sources. Date fields refresh hourly; time every 10s.
+;; clocktime uses Simplified Chinese (时 = hour, 分 = minute), 24h, zero-padded.
+(defpoll month     :interval "1h"  :initial "" `date +%B | tr '[:lower:]' '[:upper:]'`)
+(defpoll weekday   :interval "1h"  :initial "" `date +%A | tr '[:lower:]' '[:upper:]'`)
+(defpoll daynum    :interval "1h"  :initial "" `date +%d`)
+(defpoll clocktime :interval "10s" :initial "" `date +%H时%M分`)
+
+(defwidget clockface []
+  (box :class "clock-root" :orientation "h" :space-evenly false :spacing 22 :valign "center" :halign "end"
+    ;; Left: thin bordered column - day in a circle, then weekday rotated.
+    (box :class "weekday-box" :orientation "v" :space-evenly false :valign "center" :halign "center"
+      (label :class "day-circle" :text daynum :halign "center")
+      (label :class "weekday" :text weekday :angle 270 :valign "center"))
+    ;; Right: big low-contrast month over the CJK time with a leading rule.
+    (box :orientation "v" :space-evenly false :halign "start" :valign "center"
+      (label :class "month" :text month :xalign 0 :wrap false)
+      (box :class "time-row" :orientation "h" :space-evenly false :halign "start" :valign "center"
+        (box :class "rule" :valign "center")
+        (label :class "time" :text clocktime)))))
+
+;; Position comes in as WINDOW ARGS (not global vars): eww evaluates :geometry
+;; before global defvars are in scope, so reposition.sh passes anchor/x/y via
+;; `eww open ... --arg`. Defaults here are the fallback (center right).
+(defwindow clock [?anchor ?xoff ?yoff]
+  :monitor 0
+  :stacking "bg"
+  :focusable false
+  :exclusive false
+  ;; Fixed size: eww/GTK ellipsizes the month rather than growing the window, so
+  ;; we give it room for the longest month name. Content is right-aligned inside
+  ;; (clock-root :halign "end") so the right-anchored default positions precisely.
+  :geometry (geometry
+              :width "940px"
+              :height "360px"
+              :anchor {anchor ?: "center right"}
+              :x {xoff ?: "60px"}
+              :y {yoff ?: "0px"})
+  (clockface))

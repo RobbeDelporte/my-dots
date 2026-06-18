@@ -20,3 +20,8 @@ chosen=$(
 [[ -n "${chosen:-}" ]] || exit 0
 
 wayle wallpaper set -f fill "$wall_dir/$chosen"
+
+# Re-place the desktop clock for the new wallpaper. Pass the explicit path so this
+# is race-free (does not depend on awww having switched yet); matugen's eww
+# post_hook covers wallpaper changes made through the wayle GUI instead.
+"$HOME/.config/eww/reposition.sh" "$wall_dir/$chosen" >/dev/null 2>&1 || true
