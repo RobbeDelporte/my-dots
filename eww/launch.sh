@@ -20,10 +20,14 @@ fi
 
 command -v eww >/dev/null 2>&1 || { echo "launch.sh: eww not installed" >&2; exit 1; }
 
-# Wait for the wallpaper daemon to report outputs so we open on the right screens
-# (awww comes up via wayle at session start; give it a few seconds).
-for _ in $(seq 1 25); do
-  awww query >/dev/null 2>&1 && break
+# Wait until awww has actually LOADED a wallpaper -- not merely until the daemon
+# answers queries. `awww query` succeeds (exit 0) as soon as it detects outputs,
+# which on a cold boot happens before wayle restores the image. Gating on the
+# exit code alone races: reposition.sh would then parse an empty `image:` and
+# fall back to the default position. Poll for a real image path instead (the
+# same field reposition.sh reads), up to ~10s, then open anyway as a fallback.
+for _ in $(seq 1 50); do
+  awww query 2>/dev/null | grep -q 'image: /' && break
   sleep 0.2
 done
 
