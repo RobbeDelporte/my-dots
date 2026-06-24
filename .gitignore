@@ -5,6 +5,10 @@
 .vscode/
 .idea/
 
+# Python bytecode (e.g. eww/place.py compiled into eww/__pycache__)
+__pycache__/
+*.pyc
+
 # OS files
 .DS_Store
 Thumbs.db
