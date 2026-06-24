@@ -16,7 +16,7 @@ window-rule {
 
 // File / settings / management pop-ups → floating (hypr floated these)
 window-rule {
-    match app-id=r#"^(org\.gnome\.Settings|org\.gnome\.FileRoller|file-roller|blueman-manager|nwg-look|org\.pulseaudio\.pavucontrol|system-config-printer|Thunar)$"#
+    match app-id=r#"^(org\.gnome\.Settings|org\.gnome\.FileRoller|file-roller|blueman-manager|nwg-look|org\.pulseaudio\.pavucontrol|system-config-printer|org\.gnome\.Nautilus)$"#
     open-floating true
 }
 
