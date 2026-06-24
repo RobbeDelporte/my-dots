@@ -4,6 +4,7 @@ font-mono = "CaskaydiaCove Nerd Font"
 
 [bar]
 scale = 0.800000011920929
+background-opacity = 90
 button-variant = "basic"
 
 [[bar.layout]]
@@ -16,11 +17,12 @@ left = [
     "mango-workspaces",
 ]
 center = [
-    "clock",
     "notifications",
+    "clock",
     "media",
 ]
 right = [
+    "systray",
     { name = "group", modules = [
     "cpu",
     "ram",
@@ -67,7 +69,7 @@ matugen-light = false
 label-show = false
 
 [modules.clock]
-format = "%a %b %d %H:%M"
+format = "%H:%M"
 
 [modules.hyprland-workspaces]
 monitor-specific = false
@@ -75,7 +77,6 @@ show-special = false
 app-icons-show = true
 
 [modules.media]
-icon-type = "application"
 player-priority = ["*spotifyd*"]
 
 [modules.niri-workspaces]
