@@ -83,14 +83,17 @@ output_path = "~/my-dots/generated/nvim-colors.lua"
 # Desktop wallpaper clock (eww). Colours only → generated/ sink; eww.scss
 # @imports it by absolute path (~/.config/eww is a whole-dir symlink to the repo,
 # so matugen must NOT write inside it — same anti-clobber rule as kitty/niri).
-# post_hook: reload eww styles, then re-resolve position (covers wallpaper changes
-# made through the wayle GUI; the rofi picker also calls reposition.sh directly).
+# post_hook: reposition.sh --reload applies the new colours AND the per-wallpaper
+# position in a SINGLE open animation (it closes the clock, reloads styles while
+# nothing is mapped, then opens once). This is the ONE trigger for every theme
+# render -- wallpaper set or scheme change, GUI or rofi picker -- so the picker
+# no longer calls reposition.sh itself (that double-triggered, causing two fades).
 # Output redirected so it never pollutes wayle's `matugen --json` palette capture;
 # `|| true` so a render with eww absent/not-running never fails the pipeline.
 [templates.eww]
 input_path  = "~/.config/matugen/templates/eww-colors.tmpl"
 output_path = "~/my-dots/generated/eww-colors.scss"
-post_hook   = "eww reload >/dev/null 2>&1; ~/.config/eww/reposition.sh >/dev/null 2>&1 || true"
+post_hook   = "~/.config/eww/reposition.sh --reload >/dev/null 2>&1 || true"
 
 # GTK3 + GTK4: one template (gtk-colors.tmpl) drives BOTH color namespaces —
 # libadwaita names for GTK4 apps and stock-Adwaita @theme_* names for GTK3, so

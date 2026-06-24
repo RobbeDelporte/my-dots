@@ -8,8 +8,11 @@
 # because eww evaluates window :geometry before global vars are in scope.
 #
 # Usage:
-#   reposition.sh [--open] [<wallpaper-path>]
+#   reposition.sh [--open|--reload] [<wallpaper-path>]
 #     --open            force (re)opening every window (used by launch.sh)
+#     --reload          force, AND re-parse styles while the windows are closed
+#                       so new matugen colours apply in the SAME open animation
+#                       (used by matugen's eww post_hook on every theme render)
 #     <wallpaper-path>  explicit path (wallpicker passes this; race-free).
 #                       Omitted -> read the live path from `awww query`.
 #
@@ -22,11 +25,13 @@ conf="$cfg/positions.conf"
 state="${XDG_STATE_HOME:-$HOME/.local/state}/eww-clock-pos"
 
 force=0
+reload=0
 wall=""
 for a in "$@"; do
   case "$a" in
-    --open) force=1 ;;
-    *)      wall="$a" ;;
+    --open)   force=1 ;;
+    --reload) force=1; reload=1 ;;
+    *)        wall="$a" ;;
   esac
 done
 
@@ -66,8 +71,19 @@ mkdir -p "$(dirname "$state")"; printf '%s' "$new" > "$state"
 
 n=$(awww query 2>/dev/null | grep -c 'currently displaying' || true)
 [[ "$n" =~ ^[0-9]+$ && "$n" -ge 1 ]] || n=1
+
+# Close every clock FIRST, then (for --reload) re-parse styles while nothing is
+# mapped, then open. `eww reload` recreates any OPEN layer surface -- an extra
+# re-map/animation -- so reloading with the windows already closed lets the
+# colour refresh and the reposition collapse into a single open animation
+# instead of two (reload-recreate at the old spot, then reposition at the new).
 for ((i = 0; i < n; i++)); do
   eww close "clock-$i" >/dev/null 2>&1 || true
+done
+if [[ "$reload" -eq 1 ]]; then
+  eww reload >/dev/null 2>&1 || true
+fi
+for ((i = 0; i < n; i++)); do
   eww open clock --id "clock-$i" --screen "$i" \
     --arg anchor="$anchor" --arg xoff="$xoff" --arg yoff="$yoff" >/dev/null 2>&1 || true
 done

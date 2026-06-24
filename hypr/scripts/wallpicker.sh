@@ -21,7 +21,7 @@ chosen=$(
 
 wayle wallpaper set -f fill "$wall_dir/$chosen"
 
-# Re-place the desktop clock for the new wallpaper. Pass the explicit path so this
-# is race-free (does not depend on awww having switched yet); matugen's eww
-# post_hook covers wallpaper changes made through the wayle GUI instead.
-"$HOME/.config/eww/reposition.sh" "$wall_dir/$chosen" >/dev/null 2>&1 || true
+# The desktop clock re-places itself from matugen's eww post_hook (wayle re-runs
+# matugen on every wallpaper set, and that post_hook runs reposition.sh --reload).
+# Don't call reposition.sh here too -- doing both double-triggered it and the
+# clock faded in twice.
