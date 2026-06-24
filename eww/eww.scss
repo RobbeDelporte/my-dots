@@ -1,74 +1,57 @@
-// Wallpaper clock styles. Palette comes from matugen via the absolute-path
+// Wallpaper clock v2 styles. Palette comes from matugen via the absolute-path
 // @import below (generated/eww-colors.scss); static defaults are declared first
-// so the import only OVERRIDES them. launch.sh guarantees the imported file
-// exists (the Sass engine hard-errors on a missing @import).
+// so the import only OVERRIDES them (and so the styles still compile before the
+// first matugen render / on a fresh checkout). launch.sh guarantees the imported
+// file exists (the Sass engine hard-errors on a missing @import).
 //
 // IMPORTANT: keep this file pure ASCII. eww's Sass engine prepends a
 // `@charset "UTF-8";` rule when the source contains any non-ASCII byte, then
 // rejects its own injected rule ("unknown @ rule") -- which silently drops ALL
-// styles. No box-drawing chars, no smart quotes, no CJK in comments.
+// styles. No box-drawing chars, no smart quotes, no CJK in comments. (The CJK
+// glyphs live in eww.yuck, which is not Sass.)
 
 // Fallback palette (overridden by the matugen-generated import on a real render).
-$clock-month: #cfcfcf;
-$clock-accent: #8bd0f0;
-$clock-fg: #e8e8e8;
+$clock-fg:     #e2e2e4;   // on_surface -> numerals
+$clock-accent: #a2cde2;   // primary    -> CJK unit characters + corner brackets
+$clock-warm:   #f2bc8e;   // tertiary   -> dot + English weekday
 
 @import "/home/robbe/my-dots/generated/eww-colors.scss";
 
-// Transparent surfaces so only the type shows over the wallpaper.
+// Transparent surfaces so only the type + brackets show over the wallpaper.
 window { background-color: transparent; }
-.clock-root { background-color: transparent; }
+.clock-stack { background-color: transparent; padding: 34px 50px; }
 
-// Big, low-contrast month -- "blended into the wallpaper".
-.month {
-  font-family: "Black Future";
-  font-size: 120px;
-  // Muted "blended" month. Lower the alpha (raise the transparentize amount)
-  // for a fainter blend, raise it for a bolder month. This is the main knob.
-  color: transparentize($clock-month, 0.45);
-}
+// --- Shared roles ----------------------------------------------------------
+// Numerals: Rubik Bold -- geometric, plain (un-dotted) zero; near-opaque
+// on_surface (contrast by color, no shadow). JetBrains Mono was dropped: its
+// Nerd Font build forces a dotted zero (no plain-glyph OT feature -- verified
+// via pango-view that zero=0 / cv01 leave the dot).
+.num  { font-family: "Rubik"; font-weight: bold;
+        color: transparentize($clock-fg, 0.15); }
+// CJK unit characters: Noto Serif CJK SC, primary accent.
+.unit { font-family: "Noto Serif CJK SC"; font-weight: 500; color: $clock-accent; }
+// Dot separator + English weekday: Black Future, warm tertiary accent.
+.wd, .sep { font-family: "Black Future"; color: $clock-warm; }
 
-.time-row { margin-top: 4px; }
+// --- Hero: time ------------------------------------------------------------
+.time-row .num  { font-size: 96px; }
+.time-row .unit { font-size: 52px; margin-left: 4px; margin-right: 12px; margin-bottom: 16px; }
 
-// Short horizontal rule leading into the time.
-.rule {
-  background-color: $clock-accent;
-  min-width: 48px;
-  min-height: 2px;
-  margin-right: 14px;
-}
+// --- Secondary: date + weekday --------------------------------------------
+.meta-row .num  { font-size: 38px; }
+.meta-row .unit { font-size: 28px; margin-left: 3px; margin-right: 9px; margin-bottom: 4px; }
+.meta-row .wd   { font-size: 38px; }
+.meta-row .sep  { font-size: 38px; margin-left: 8px; margin-right: 10px; }
 
-// Time: Simplified Chinese via Noto Sans CJK SC, brighter accent.
-.time {
-  font-family: "Noto Sans CJK SC";
-  font-size: 34px;
-  font-weight: 600;
-  color: $clock-accent;
-}
-
-// Thin bordered column: day circle on top, weekday rotated below.
-.weekday-box {
-  border: 2px solid transparentize($clock-accent, 0.20);
-  padding: 16px 12px;
-}
-
-// Day number inside a circle.
-.day-circle {
-  font-family: "Noto Sans CJK SC";
-  font-size: 17px;
-  font-weight: 600;
-  color: $clock-accent;
-  border: 2px solid $clock-accent;
-  border-radius: 50%;
-  min-width: 36px;
-  min-height: 36px;
-  margin-bottom: 16px;
-}
-
-// Weekday rotated 90 degrees (label :angle 270 in the .yuck = top-to-bottom).
-.weekday {
-  font-family: "Rubik";
-  font-size: 18px;
-  font-weight: 500;
-  color: transparentize($clock-fg, 0.12);
-}
+// --- Corner brackets (HUD frame) ------------------------------------------
+// Thin L-marks pinned to the four corners of the padded stack via the yuck
+// overlay. Each shows only its two inner borders. primary, slightly dimmed.
+.cnr    { min-width: 18px; min-height: 18px; }
+.cnr.tl { border-top:    2px solid transparentize($clock-accent, 0.2);
+          border-left:   2px solid transparentize($clock-accent, 0.2); }
+.cnr.tr { border-top:    2px solid transparentize($clock-accent, 0.2);
+          border-right:  2px solid transparentize($clock-accent, 0.2); }
+.cnr.bl { border-bottom: 2px solid transparentize($clock-accent, 0.2);
+          border-left:   2px solid transparentize($clock-accent, 0.2); }
+.cnr.br { border-bottom: 2px solid transparentize($clock-accent, 0.2);
+          border-right:  2px solid transparentize($clock-accent, 0.2); }
