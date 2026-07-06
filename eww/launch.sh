@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Start the eww daemon and open the wallpaper clock on every output.
-# Autostarted on Hyprland (execs.conf) and niri (autostart.kdl); idempotent.
+# Autostarted on Hyprland (execs.conf); idempotent.
 set -uo pipefail
 
 cfg="$HOME/.config/eww"

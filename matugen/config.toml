@@ -63,14 +63,6 @@ output_path = "~/my-dots/generated/swayimg-colors.lua"
 # generated/ sink and swayimg/init.lua dofile's it — same include pattern as
 # kitty/rofi/hypr. No post_hook: swayimg reads config fresh on each launch.
 
-[templates.niri]
-input_path  = "~/.config/matugen/templates/niri-colors.tmpl"
-output_path = "~/my-dots/generated/niri-colors.kdl"
-# No post_hook: ~/.config/niri is a whole-dir symlink to the repo, so matugen must
-# NOT write inside it (would clobber tracked config.kdl) — output goes to the
-# generated/ sink and config.kdl `include`s it by absolute path. niri live-reloads
-# watched includes, so the running session re-themes with no signal needed.
-
 [templates.nvim]
 input_path  = "~/.config/matugen/templates/nvim.tmpl"
 output_path = "~/my-dots/generated/nvim-colors.lua"
@@ -82,7 +74,7 @@ output_path = "~/my-dots/generated/nvim-colors.lua"
 
 # Desktop wallpaper clock (eww). Colours only → generated/ sink; eww.scss
 # @imports it by absolute path (~/.config/eww is a whole-dir symlink to the repo,
-# so matugen must NOT write inside it — same anti-clobber rule as kitty/niri).
+# so matugen must NOT write inside it — same anti-clobber rule as kitty).
 # post_hook: reposition.sh --reload applies the new colours AND the per-wallpaper
 # position in a SINGLE open animation (it closes the clock, reloads styles while
 # nothing is mapped, then opens once). This is the ONE trigger for every theme

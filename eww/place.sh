@@ -6,7 +6,7 @@
 # "CANCEL". This script then persists the position PER WALLPAPER in
 # positions.conf and applies it via the existing reposition.sh.
 #
-# Bound to Super+Ctrl+W (Hyprland) / Mod+Ctrl+W (niri). See
+# Bound to Super+Ctrl+W (Hyprland). See
 # docs/superpowers/specs/2026-06-24-eww-clock-drag-place-design.md.
 set -uo pipefail
 
@@ -50,8 +50,6 @@ current_wallpaper() { awww query 2>/dev/null | sed -n 's/.*image: //p' | head -1
 focused_origin() {
   if [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]] && command -v hyprctl >/dev/null 2>&1; then
     hyprctl monitors -j 2>/dev/null | jq -r '.[] | select(.focused) | "\(.x) \(.y)"' | head -1
-  elif [[ -n "${NIRI_SOCKET:-}" ]] && command -v niri >/dev/null 2>&1; then
-    niri msg --json focused-output 2>/dev/null | jq -r '.logical | "\(.x) \(.y)"' 2>/dev/null
   fi
 }
 

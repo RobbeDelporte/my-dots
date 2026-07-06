@@ -1,7 +1,0 @@
-// Animations — mirrors that hypr/hyprland/animations.conf exists. niri ships good
-// defaults (window open/close/move, workspace switch); we just keep them on and
-// expose the global speed knob. Raise `slowdown` to slow all animations down,
-// lower toward 0 to speed them up; add `off` inside a block to disable one.
-animations {
-    slowdown 1.0
-}

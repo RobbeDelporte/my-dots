@@ -23,23 +23,12 @@ mkdir -p "$HOME/Pictures/Screenshots"
 tmp=$(mktemp --suffix=.png)
 trap 'rm -f "$tmp"' EXIT
 
-# grimblast's "active"/window mode needs hyprctl (Hyprland-only). On niri
-# (NIRI_SOCKET is exported in a niri session) use grim/slurp directly — they work
-# via wlr-screencopy. niri exposes no active-window rect to grim, so "window"
-# falls back to a manual region select there.
-if [[ -n "${NIRI_SOCKET:-}" ]]; then
-	case "$target" in
-		screen) grim "$tmp" ;;
-		region) grim -g "$(slurp)" "$tmp" ;;
-		window) grim -g "$(slurp)" "$tmp" ;;
-	esac || exit 0
-else
-	case "$target" in
-		screen) grimblast save screen "$tmp" ;;
-		region) grimblast --freeze save area "$tmp" ;;
-		window) grimblast save active "$tmp" ;;
-	esac || exit 0
-fi
+# grimblast's "active"/window mode needs hyprctl (Hyprland-only).
+case "$target" in
+	screen) grimblast save screen "$tmp" ;;
+	region) grimblast --freeze save area "$tmp" ;;
+	window) grimblast save active "$tmp" ;;
+esac || exit 0
 
 # --resize smart: satty sizes its own window to the image and ignores Hyprland's
 # size windowrule, so a multi-monitor capture would open wider than one screen.
