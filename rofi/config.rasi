@@ -34,7 +34,7 @@ window {
     transparency:    "real";
     location:        center;
     width:           600px;
-    border-radius:   12px;
+    border-radius:   6px;
     background-color: @background;
 }
 
@@ -69,7 +69,7 @@ listview {
 
 element {
     padding:       8px 12px;
-    border-radius: 8px;
+    border-radius: 2px;
     spacing:       10px;
 }
 

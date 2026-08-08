@@ -85,7 +85,9 @@ output_path = "~/my-dots/generated/nvim-colors.lua"
 [templates.eww]
 input_path  = "~/.config/matugen/templates/eww-colors.tmpl"
 output_path = "~/my-dots/generated/eww-colors.scss"
-post_hook   = "~/.config/eww/reposition.sh --reload >/dev/null 2>&1 || true"
+# post_hook DISABLED with the clock itself (it calls `eww open`, which would
+# auto-start the daemon and resurrect the clock on every render).
+# post_hook   = "~/.config/eww/reposition.sh --reload >/dev/null 2>&1 || true"
 
 # GTK3 + GTK4: one template (gtk-colors.tmpl) drives BOTH color namespaces —
 # libadwaita names for GTK4 apps and stock-Adwaita @theme_* names for GTK3, so
