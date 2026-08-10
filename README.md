@@ -72,7 +72,8 @@ Note: wayle reformats `runtime.toml` (strips comments, reorders, expands floats)
 
 **Known gaps:**
 - wayle's `hyprland-workspaces` module is Hyprland-only and `wayle/runtime.toml` is a single shared source of truth, so mango's bar has a dead spot in the left cluster. Every other module, plus the wallpaper and matugen chain, is compositor-agnostic.
-- Screen sharing needs `yay -S xdg-desktop-portal-wlr` plus a `~/.config/xdg-desktop-portal/mango-portals.conf` preferring `wlr` for `ScreenCast`/`Screenshot` — only `xdg-desktop-portal-hyprland` is installed, and it does not work outside Hyprland.
+- Screen sharing needs the **`xdg-desktop-portal-wlr`** package (installed 2026-08-10); `xdg-desktop-portal-hyprland` does not work outside Hyprland. No dotfiles config is needed: mangowm ships `/usr/share/xdg-desktop-portal/mango-portals.conf` (`ScreenCast`/`Screenshot` → `wlr`), which applies because the session sets `XDG_CURRENT_DESKTOP=mango`. Hyprland is unaffected — `hyprland-portals.conf` pins `default=hyprland;gtk`.
+  Optional, if multi-monitor screencasts pick the wrong output: add `~/.config/xdg-desktop-portal-wlr/config` with `[screencast]` / `chooser_type=simple` / `chooser_cmd=slurp -f %o -or` to select the output with slurp. Not set up here.
 
 ## Layout
 
