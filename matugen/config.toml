@@ -28,6 +28,19 @@ output_path = "~/my-dots/generated/hypr-colors.conf"
 # Redirect both streams so post_hook output never pollutes matugen's --json capture.
 post_hook   = "hyprctl reload >/dev/null 2>&1"
 
+# NOTE: ~/.config/mango is a whole-dir symlink to the repo (same rule as hypr), so
+# matugen must NOT write inside it. Generated colours go to ~/my-dots/generated/;
+# mango/config.conf sources the static fallback first, then this override.
+[templates.mango-colors]
+input_path  = "~/.config/matugen/templates/mango-colors.tmpl"
+output_path = "~/my-dots/generated/mango-colors.conf"
+# mmsg is mango's IPC client; `reload_config` re-reads config.conf and its sourced
+# files. Under Hyprland there is no mango socket, so this is a silent no-op --
+# mirroring how `hyprctl reload` is a no-op under mango. Output MUST be redirected:
+# wayle captures `matugen --json` on stdout and any post_hook output corrupts the
+# palette capture (bar stops tracking the wallpaper).
+post_hook   = "mmsg dispatch reload_config >/dev/null 2>&1 || true"
+
 [templates.kitty]
 input_path  = "~/.config/matugen/templates/kitty.tmpl"
 output_path = "~/my-dots/generated/kitty.conf"
