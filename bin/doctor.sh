@@ -16,7 +16,6 @@ fail=0
 # generated files inside are gitignored.
 links=(
   "$CFG/hypr|hypr"
-  "$CFG/mango|mango"
   "$CFG/kitty|kitty"
   "$CFG/matugen|matugen"
   "$CFG/nvim|nvim"
