@@ -15,12 +15,12 @@
 prefer = "saturation"
 
 # NOTE: ~/.config/hypr is a whole-dir symlink to the repo, so matugen must NOT
-# write inside it (it would clobber the tracked static fallback hypr/colors.conf).
-# Generated colors go to ~/my-dots/generated/; hyprland.conf sources the static
-# fallback first, then this override.
-[templates.hypr-colors]
-input_path  = "~/.config/matugen/templates/hypr-colors.tmpl"
-output_path = "~/my-dots/generated/hypr-colors.conf"
+# write inside it (it would clobber the tracked static fallback hypr/colors.lua).
+# Generated colors go to ~/my-dots/generated/; palette.lua loads the static
+# fallback first, then overlays this render on top.
+[templates.hypr-colors-lua]
+input_path  = "~/.config/matugen/templates/hypr-colors-lua.tmpl"
+output_path = "~/my-dots/generated/hypr-colors.lua"
 # `hyprctl reload` prints "ok" to stdout. wayle self-themes by running matugen
 # with `--json` and capturing stdout as its palette; an unredirected post_hook
 # appends "ok" after the JSON, so wayle fails with "cannot parse palette JSON"
@@ -28,18 +28,14 @@ output_path = "~/my-dots/generated/hypr-colors.conf"
 # Redirect both streams so post_hook output never pollutes matugen's --json capture.
 post_hook   = "hyprctl reload >/dev/null 2>&1"
 
-# NOTE: ~/.config/mango is a whole-dir symlink to the repo (same rule as hypr), so
-# matugen must NOT write inside it. Generated colours go to ~/my-dots/generated/;
-# mango/config.conf sources the static fallback first, then this override.
-[templates.mango-colors]
-input_path  = "~/.config/matugen/templates/mango-colors.tmpl"
-output_path = "~/my-dots/generated/mango-colors.conf"
-# mmsg is mango's IPC client; `reload_config` re-reads config.conf and its sourced
-# files. Under Hyprland there is no mango socket, so this is a silent no-op --
-# mirroring how `hyprctl reload` is a no-op under mango. Output MUST be redirected:
-# wayle captures `matugen --json` on stdout and any post_hook output corrupts the
-# palette capture (bar stops tracking the wallpaper).
-post_hook   = "mmsg dispatch reload_config >/dev/null 2>&1 || true"
+# TRANSITIONAL: the hyprlang half of the config (hypr/hyprland.conf + hypr/*.conf)
+# is kept as a rollback path until the Lua config has been daily-driven. It still
+# needs its own generated palette, so this renders the same roles in `$var = hex`
+# form. Delete this block and hypr-colors.tmpl together with the .conf configs.
+# No post_hook here — the Lua template above already triggers the single reload.
+[templates.hypr-colors]
+input_path  = "~/.config/matugen/templates/hypr-colors.tmpl"
+output_path = "~/my-dots/generated/hypr-colors.conf"
 
 [templates.kitty]
 input_path  = "~/.config/matugen/templates/kitty.tmpl"

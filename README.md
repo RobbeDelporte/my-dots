@@ -1,14 +1,12 @@
 # my-dots
 
-Hyprland + mangowm + wayle dotfiles. Symlinked into `~/.config` **manually** (no installer).
-Hyprland is the daily driver; mangowm is a second session picked at login (see [mango](#mango)).
+Hyprland + wayle dotfiles. Symlinked into `~/.config` **manually** (no installer).
 
 ## Symlink map
 
 | Source (in repo) | Link | Type | Why |
 |---|---|---|---|
 | `hypr/` | `~/.config/hypr` | whole-dir | only hand-authored files |
-| `mango/` | `~/.config/mango` | whole-dir | only hand-authored files |
 | `kitty/` | `~/.config/kitty` | whole-dir | only hand-authored files |
 | `matugen/` | `~/.config/matugen` | whole-dir | only hand-authored files |
 | `nvim/` | `~/.config/nvim` | whole-dir | vendored config (~140 files) |
@@ -31,12 +29,57 @@ Run `bin/doctor.sh` (read-only) to verify every link is healthy. Adding a new tr
 ## matugen output flow
 
 matugen renders templates (`matugen/templates/`) to **`generated/`** (gitignored), then post_hooks reload the apps. Consumers read from there:
-- `generated/hypr-colors.conf` ← `hypr/hyprland.conf` sources it
-- `generated/mango-colors.conf` ← `mango/config.conf` sources it (`source-optional`)
+- `generated/hypr-colors.lua` ← `hypr/palette.lua` overlays it onto `hypr/colors.lua`
+- `generated/hypr-colors.conf` ← `hypr/hyprland.conf` sources it (legacy, see below)
 - `generated/kitty.conf` ← `kitty/kitty.conf` includes it (SIGUSR1 reload)
 - `generated/hyprlock-colors.conf` ← `hypr/hyprlock.conf` sources it
 - `generated/rofi-colors.rasi` ← `rofi/config.rasi` `@import`s it
 - `yazi/theme.toml` (in the symlinked yazi dir, gitignored) and `~/.config/gtk-{3,4}.0/gtk.css` (real GTK dirs) stay in their app dirs by necessity.
+
+## Hyprland config (Lua)
+
+Hyprland deprecated hyprlang (`.conf`) in favour of Lua in 0.55, and the
+announcement gives the old syntax "1–2 releases starting from 0.55" — 0.55 and
+0.56 have both shipped, so `.conf` support is expected to disappear in 0.57.
+The compositor config is therefore Lua:
+
+```
+hypr/hyprland.lua          entry point; require()s everything below, in order
+hypr/colors.lua            tracked static colour fallback
+hypr/palette.lua           fallback + matugen override → resolved palette
+hypr/hyprland/*.lua        variables, monitors, input, animations, rules, keybinds, special, execs
+```
+
+Hyprland picks `hyprland.lua` over `hyprland.conf` **once, at startup** — there
+is no live switching. The old `.conf` tree is still tracked as a rollback path:
+rename `hypr/hyprland.lua` out of the way and the next login falls back to
+hyprlang. Delete both the `.conf` files and matugen's `[templates.hypr-colors]`
+block once the Lua config has been daily-driven.
+
+Notes that bit during the migration and are easy to re-break:
+
+- **`require()` is not `source =`.** Each require is its own Lua scope, so
+  hyprlang's global `$vars` became modules that `return` a table. A require of a
+  *nonexistent* module raises a real error that kills the calling file — which is
+  why `palette.lua` probes for the generated palette with `io.open` + `pcall`
+  instead of requiring it. Under hyprlang a missing `source` was just a warning.
+- **Window-rule order.** Hyprland evaluates all *named* rules before all
+  anonymous ones. `hyprland/rules.lua` is deliberately 100% anonymous so plain
+  top-to-bottom order is preserved; adding a `name` to one rule silently
+  promotes it above every unnamed rule below it.
+- **Regexes need `[[long strings]]`.** `"\."` is not a valid Lua escape and is a
+  syntax error, which stops the whole file from loading.
+- **`resize` takes pixels, not percentages.** hyprlang's `resizeactive -10% 0`
+  has no direct equivalent; `keybinds.lua` resolves the fraction against the
+  focused monitor (`hl.get_active_monitor()`, physical size ÷ scale).
+- **hypr\* tools still use hyprlang.** `hypridle.conf` and `hyprlock.conf` stay
+  `.conf`; only the compositor moved.
+
+`hypr/.luarc.json` points lua_ls at `/usr/share/hypr/stubs`, so editing these
+files gives completion and typechecking for the whole `hl.*` API. To test config
+changes without logging out, run a nested instance:
+`Hyprland -c ~/.config/hypr/hyprland.lua`. Once a Lua config is live,
+`hyprctl repl` opens a REPL against the running compositor.
 
 ## wayle
 
@@ -47,33 +90,6 @@ wayle layers config as `defaults → config.toml → runtime.toml`; since everyt
 Note: wayle reformats `runtime.toml` (strips comments, reorders, expands floats) whenever the GUI writes it — expected. If the live bar ever ignores GUI edits right after a dotfiles change, run `wayle panel restart` (the daemon needs to re-attach to the dir).
 
 **Do not remove the `awww` package** — it is wayle's wallpaper backend daemon (`wayle wallpaper set` drives `awww-daemon`). Removing it breaks wallpapers and the matugen self-theming chain.
-
-## mango
-
-[mangowm](https://github.com/mangowm/mango) (AUR `mangowm`) is a **second Wayland session**, not a replacement. Nothing in `hypr/` is shared or modified.
-
-**Selecting it:** `zsh/.zprofile` runs `uwsm select` on tty1, which lists `/usr/share/wayland-sessions/*.desktop`; the package installs `mango.desktop`, so Mango just appears in that menu. Install with `yay -S mangowm`.
-
-**`exec-once=uwsm finalize` in `mango/execs.conf` is load-bearing** and must stay first: mango has no native uwsm support, so without it `WAYLAND_DISPLAY` never reaches the systemd user session and every `uwsm app --` / `app2unit` launch (wayle, ydotoold, the Super+T terminal) silently fails.
-
-**Config layering** mirrors `hypr/`: `config.conf` sources the tracked `colors.conf` fallback, then `generated/mango-colors.conf` (matugen override, `source-optional` so a fresh checkout parses), then `appearance/input/monitors/rules/keybinds/execs.conf`. Colours are `0xRRGGBBAA` — mango does not understand `rgba()`. Validate the whole tree without starting a session:
-
-    mango -c ~/.config/mango/config.conf -p
-
-`mmsg` is mango's IPC client (`mmsg get all-clients`, `mmsg dispatch <func>,<args>`) — the matugen post_hook uses `mmsg dispatch reload_config`.
-
-**Differences from the Hyprland keymap** (deliberate, mango has no equivalent):
-- **Tags, not workspaces:** 9 tags, so Super+1‑9 / Super+Alt+1‑9 work but Super+0 is gone.
-- **Named scratchpads replace special workspaces:** Super+E, Super+D, Super+M and Ctrl+Shift+Escape use `toggle_named_scratchpad`, so `ws.sh`/`wstoggle.sh` are not needed. The appids in `rules.conf` must match the binds in `keybinds.conf`.
-- **Dropped:** window groups/groupbar, `pin`, touchpad `gesture =` lines, and the negative pointer sensitivity (mango exposes no equivalent).
-- `quit` is Ctrl+Alt+Delete (mango's stock Super+M would collide with the music scratchpad); `reload_config` is Super+Shift+R.
-
-**Scripts:** `mango/scripts/{screenshot,record}.sh` exist because `grimblast` hard-requires `hyprctl` — they use `grim`/`slurp`/`mmsg` into the same satty hub and output dirs. `hypr/scripts/lock.sh` (awww + hyprlock) and `hypr/scripts/wallpicker.sh` (rofi + wayle) are protocol-generic and reused in place, so the mango binds point at `~/.config/hypr/scripts/`.
-
-**Known gaps:**
-- wayle's `hyprland-workspaces` module is Hyprland-only and `wayle/runtime.toml` is a single shared source of truth, so mango's bar has a dead spot in the left cluster. Every other module, plus the wallpaper and matugen chain, is compositor-agnostic.
-- Screen sharing needs the **`xdg-desktop-portal-wlr`** package (installed 2026-08-10); `xdg-desktop-portal-hyprland` does not work outside Hyprland. No dotfiles config is needed: mangowm ships `/usr/share/xdg-desktop-portal/mango-portals.conf` (`ScreenCast`/`Screenshot` → `wlr`), which applies because the session sets `XDG_CURRENT_DESKTOP=mango`. Hyprland is unaffected — `hyprland-portals.conf` pins `default=hyprland;gtk`.
-  Optional, if multi-monitor screencasts pick the wrong output: add `~/.config/xdg-desktop-portal-wlr/config` with `[screencast]` / `chooser_type=simple` / `chooser_cmd=slurp -f %o -or` to select the output with slurp. Not set up here.
 
 ## Layout
 
