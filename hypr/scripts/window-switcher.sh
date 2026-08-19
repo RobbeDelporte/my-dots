@@ -23,4 +23,4 @@ idx=$(
 [[ -n "${idx:-}" ]] || exit 0
 
 addr=$(printf '%s\n' "${rows[idx]}" | cut -f1)
-hyprctl dispatch focuswindow "address:${addr}"
+hyprctl dispatch "hl.dsp.focus({ window = \"address:${addr}\" })"

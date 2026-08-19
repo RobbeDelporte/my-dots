@@ -46,6 +46,7 @@ label-show = false
 format = "%a %-d %b - %R"
 
 [modules.hyprland-workspaces]
+min-workspace-count = 9
 monitor-specific = false
 show-special = false
 app-icons-show = true

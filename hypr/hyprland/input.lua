@@ -24,7 +24,13 @@ hl.config({
     },
 
     binds = {
-        scroll_event_delay = 0,
+        -- Debounce for the mouse_up/mouse_down workspace binds. 0 fires the
+        -- bind on EVERY axis event, so one touchpad flick (amplified by
+        -- touchpad.scroll_factor) walked several workspaces at once and, since
+        -- e+1/e-1 wrap around the existing ones, landed somewhere arbitrary.
+        -- Hyprland's default 300 felt sluggish; 100 still collapses a flick
+        -- into one switch but keeps deliberate repeat scrolling responsive.
+        scroll_event_delay = 100,
     },
 
     cursor = {

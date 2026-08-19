@@ -10,9 +10,19 @@ local v = require("hyprland/variables")
 
 local SCRIPTS = "~/.config/hypr/scripts"
 
--- Go to workspace via ws.sh: collapses any open special workspace first.
-local function ws(arg)
-    return hl.dsp.exec_cmd(SCRIPTS .. "/ws.sh " .. arg)
+-- Go to a workspace, first collapsing any special workspace open on the focused
+-- monitor — Hyprland has no native option for that. Was ws.sh (hyprctl + jq).
+-- `target` is either a workspace number or a relative selector like "e+1".
+local function ws(target)
+    return function()
+        local sp = hl.get_active_special_workspace()
+        if sp then
+            -- sp.name is "special:files"; toggle_special wants "files". The parens
+            -- keep gsub's second return value out of the argument list.
+            hl.dispatch(hl.dsp.workspace.toggle_special((sp.name:gsub("^special:", ""))))
+        end
+        hl.dispatch(hl.dsp.focus({ workspace = target }))
+    end
 end
 
 -- hyprlang's `resizeactive -10% 0` took a percentage of the monitor. The Lua
@@ -89,8 +99,11 @@ for i = 1, 10 do
     hl.bind(v.keys.moveWinToWs .. " + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
-hl.bind("SUPER + mouse_down", ws("e-1"))
-hl.bind("SUPER + mouse_up", ws("e+1"))
+-- Inverted relative to the Page_Up/Page_Down pair below: scroll down goes
+-- FORWARD. The touchpad runs natural_scroll, so this is the direction the
+-- content-follows-fingers model implies.
+hl.bind("SUPER + mouse_down", ws("e+1"))
+hl.bind("SUPER + mouse_up", ws("e-1"))
 hl.bind(v.keys.prevWs, ws("e-1"), { repeating = true })
 hl.bind(v.keys.nextWs, ws("e+1"), { repeating = true })
 hl.bind("SUPER + Page_Up", ws("e-1"), { repeating = true })
@@ -99,8 +112,10 @@ hl.bind("SUPER + Page_Down", ws("e+1"), { repeating = true })
 -- ── Move window to workspace ──
 hl.bind("SUPER + ALT + Page_Up", hl.dsp.window.move({ workspace = "-1" }), { repeating = true })
 hl.bind("SUPER + ALT + Page_Down", hl.dsp.window.move({ workspace = "+1" }), { repeating = true })
-hl.bind("SUPER + ALT + mouse_down", hl.dsp.window.move({ workspace = "-1" }))
-hl.bind("SUPER + ALT + mouse_up", hl.dsp.window.move({ workspace = "+1" }))
+-- Same inversion as the SUPER + scroll pair, so dragging a window tracks the
+-- direction the view moves.
+hl.bind("SUPER + ALT + mouse_down", hl.dsp.window.move({ workspace = "+1" }))
+hl.bind("SUPER + ALT + mouse_up", hl.dsp.window.move({ workspace = "-1" }))
 hl.bind("CTRL + SUPER + SHIFT + right", hl.dsp.window.move({ workspace = "+1" }), { repeating = true })
 hl.bind("CTRL + SUPER + SHIFT + left", hl.dsp.window.move({ workspace = "-1" }), { repeating = true })
 hl.bind("CTRL + SUPER + SHIFT + up", hl.dsp.window.move({ workspace = "special:special" }))
