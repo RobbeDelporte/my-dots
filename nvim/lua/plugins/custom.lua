@@ -74,6 +74,22 @@ return {
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
           },
         },
+        -- Restating snacks' defaults (header / keys / startup) because defining
+        -- `sections` replaces the default list rather than extending it.
+        sections = {
+          { section = "header" },
+          { section = "keys", gap = 1, padding = 1 },
+          -- The title only renders when the section produced rows, so no saved
+          -- sessions means no empty "Sessions" heading.
+          {
+            icon = " ",
+            title = "Sessions",
+            indent = 2,
+            padding = 1,
+            require("util.sessions").section({ limit = 5 }),
+          },
+          { section = "startup" },
+        },
       },
     },
   },
