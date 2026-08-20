@@ -17,6 +17,7 @@ fail=0
 links=(
   "$CFG/hypr|hypr"
   "$CFG/kitty|kitty"
+  "$CFG/ghostty|ghostty"
   "$CFG/matugen|matugen"
   "$CFG/nvim|nvim"
   "$CFG/yazi|yazi"
@@ -29,6 +30,8 @@ links=(
   "$CFG/swayimg|swayimg"
   "$CFG/gtk-3.0/settings.ini|gtk/settings.ini"
   "$CFG/gtk-4.0/settings.ini|gtk/settings.ini"
+  "$HOME/.local/share/applications/nvim.desktop|nvim.desktop"
+  "$HOME/.local/share/applications/yazi.desktop|yazi.desktop"
   "$HOME/.zshrc|zsh/.zshrc"
   "$HOME/.zprofile|zsh/.zprofile"
 )

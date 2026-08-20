@@ -8,6 +8,7 @@ Hyprland + wayle dotfiles. Symlinked into `~/.config` **manually** (no installer
 |---|---|---|---|
 | `hypr/` | `~/.config/hypr` | whole-dir | only hand-authored files |
 | `kitty/` | `~/.config/kitty` | whole-dir | only hand-authored files |
+| `ghostty/` | `~/.config/ghostty` | whole-dir | only hand-authored files; nvim's terminal (see below) |
 | `matugen/` | `~/.config/matugen` | whole-dir | only hand-authored files |
 | `nvim/` | `~/.config/nvim` | whole-dir | vendored config (~140 files) |
 | `yazi/` | `~/.config/yazi` | whole-dir | `theme.toml` generated here (gitignored) |
@@ -15,6 +16,8 @@ Hyprland + wayle dotfiles. Symlinked into `~/.config` **manually** (no installer
 | `wayle/` | `~/.config/wayle` | whole-dir | wayle atomically rewrites `runtime.toml`; generated files gitignored |
 | `starship.toml` | `~/.config/starship.toml` | per-file | single file |
 | `mimeapps.list` | `~/.config/mimeapps.list` | per-file | single file |
+| `nvim.desktop` | `~/.local/share/applications/nvim.desktop` | per-file | shadows the distro entry so nvim opens in ghostty |
+| `yazi.desktop` | `~/.local/share/applications/yazi.desktop` | per-file | shadows the distro entry so yazi opens in kitty |
 | `gtk/settings.ini` | `~/.config/gtk-3.0/settings.ini` & `gtk-4.0/settings.ini` | per-file | dir shared with generated `gtk.css` + GTK `bookmarks`; GTK never rewrites `settings.ini` |
 | `zsh/.zshrc` | `~/.zshrc` | per-file | home dotfile |
 | `zsh/.zprofile` | `~/.zprofile` | per-file | home dotfile |
@@ -32,9 +35,29 @@ matugen renders templates (`matugen/templates/`) to **`generated/`** (gitignored
 - `generated/hypr-colors.lua` ← `hypr/palette.lua` overlays it onto `hypr/colors.lua`
 - `generated/hypr-colors.conf` ← `hypr/hyprland.conf` sources it (legacy, see below)
 - `generated/kitty.conf` ← `kitty/kitty.conf` includes it (SIGUSR1 reload)
+- `generated/ghostty-colors.conf` ← `ghostty/config.ghostty` pulls it in with `config-file` (no reload signal; next launch)
 - `generated/hyprlock-colors.conf` ← `hypr/hyprlock.conf` sources it
 - `generated/rofi-colors.rasi` ← `rofi/config.rasi` `@import`s it
 - `yazi/theme.toml` (in the symlinked yazi dir, gitignored) and `~/.config/gtk-{3,4}.0/gtk.css` (real GTK dirs) stay in their app dirs by necessity.
+
+## Terminals
+
+Two, on purpose:
+
+| | binding | role | padding |
+|---|---|---|---|
+| **kitty** | `SUPER + T` | general shell work | `window_padding_width 10` |
+| **ghostty** | `SUPER + C` | nvim only (`ghostty -e nvim`) | `window-padding-x 2`, `-y 0` |
+
+Splitting them is what lets nvim run near-zero padding, an opaque background and
+a block cursor while the shell terminal keeps its roomy, translucent, beam-cursor
+look. Both are driven from `hypr/hyprland/variables.lua` (`terminal`, `editor`,
+`editorTerminal`, `keys.terminal`, `keys.editor`) and both follow matugen, sharing
+one role mapping across `kitty.tmpl` and `ghostty.tmpl`.
+
+Launching nvim from anywhere else lands in ghostty too: `nvim.desktop` (repo root,
+symlinked into `~/.local/share/applications`) shadows the distro's `Terminal=true`
+entry, and `mimeapps.list` points the text/code MIME types at it.
 
 ## Hyprland config (Lua)
 

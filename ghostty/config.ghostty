@@ -1,0 +1,61 @@
+# ghostty config — the DEDICATED nvim terminal.
+# ~/.config/ghostty is a manual symlink to this repo dir (see README).
+# kitty stays the general-purpose shell terminal (SUPER+T); this one exists so
+# nvim can have its own padding/cursor/opacity without compromising either.
+# matugen writes the generated colors to ~/my-dots/generated/ (gitignored),
+# NOT into this config dir — see the config-file include at the bottom.
+
+# ── Font ──
+font-family = JetBrains Mono Nerd Font
+font-size = 12
+
+# ── Window ──
+# The whole point of a separate terminal: kitty runs window_padding_width 10,
+# which wastes a column of screen either side of a buffer. Near-zero here.
+window-padding-x = 2
+window-padding-y = 0
+window-padding-balance = true
+window-decoration = none
+# Opaque on purpose — kitty's 0.95 blur is fine behind a shell, but it turns
+# syntax highlighting into noise.
+background-opacity = 1
+# Hyprland tiles/resizes constantly; the size popup is pure distraction.
+resize-overlay = never
+
+# ── Cursor ──
+# Block, not kitty's beam: nvim is modal and the block IS the mode indicator.
+cursor-style = block
+cursor-style-blink = false
+mouse-hide-while-typing = true
+
+# ── Behaviour ──
+# nvim owns :q / :wq — a confirmation dialog on close is redundant.
+confirm-close-surface = false
+shell-integration = none
+
+# ── Static fallback palette ──
+# Same values as kitty's fallback, so a fresh checkout looks right before the
+# first matugen render. Overridden by the include below.
+background = #0b0f11
+foreground = #dfe6ed
+palette = 0=#151a1e
+palette = 1=#f28b82
+palette = 2=#81c995
+palette = 3=#fdd663
+palette = 4=#8ab4f8
+palette = 5=#cf86e8
+palette = 6=#78d9ec
+palette = 7=#c4cdd4
+palette = 8=#3c4a50
+palette = 9=#f6aea9
+palette = 10=#a8d5b5
+palette = 11=#fde78b
+palette = 12=#a8c7fa
+palette = 13=#ddb6f2
+palette = 14=#a4eaf5
+palette = 15=#dfe6ed
+
+# ── matugen-generated colors ──
+# Absolute path: ghostty does no ${HOME}/env expansion in config values.
+# `?` prefix = optional, so a checkout with no render yet still starts.
+config-file = ?/home/robbe/my-dots/generated/ghostty-colors.conf

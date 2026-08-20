@@ -14,6 +14,10 @@ return {
     -- ### Apps ###
     terminal = "kitty",
     browser  = "zen-browser",
+    -- nvim gets a dedicated terminal rather than sharing `terminal`: its padding,
+    -- cursor and opacity are tuned for a buffer, kitty's for a shell.
+    editor         = "nvim",
+    editorTerminal = "ghostty",
 
     -- ### Touchpad ###
     touchpadDisableTyping = true,
@@ -79,5 +83,6 @@ return {
         toggleWindowFloating     = "SUPER + ALT + Space",
         closeWindow              = "SUPER + Q",
         terminal                 = "SUPER + T",
+        editor                   = "SUPER + C",
     },
 }

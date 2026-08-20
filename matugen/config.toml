@@ -50,6 +50,20 @@ output_path = "~/my-dots/generated/kitty.conf"
 # `|| true` so a render with no kitty running never fails the pipeline.
 post_hook   = "pkill -USR1 kitty >/dev/null 2>&1 || true"
 
+[templates.ghostty]
+input_path  = "~/.config/matugen/templates/ghostty.tmpl"
+output_path = "~/my-dots/generated/ghostty-colors.conf"
+# ~/.config/ghostty is a whole-dir symlink to the repo, so matugen must NOT write
+# inside it (would clobber the tracked config). Output goes to the generated/ sink
+# and ghostty/config.ghostty pulls it in with `config-file` — same include pattern
+# as kitty. NOTE the filename: ghostty 1.3 documents `config.ghostty`; a bare
+# `config` still loads but is the legacy name.
+# No post_hook: ghostty has NO signal-based reload (kitty's SIGUSR1 has no
+# equivalent — reload is a keybind, ctrl+shift+comma, or the app menu). Colours
+# therefore apply on next launch, same as nvim's palette — which is the right
+# pairing anyway, since this terminal exists to host nvim and nvim needs the
+# relaunch regardless.
+
 [templates.rofi]
 input_path  = "~/.config/matugen/templates/rofi.tmpl"
 output_path = "~/my-dots/generated/rofi-colors.rasi"

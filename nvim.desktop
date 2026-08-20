@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Name=Neovim
+GenericName=Text Editor
+Comment=Edit text files
+# Shadows /usr/share/applications/nvim.desktop (that one is Terminal=true, which
+# hands the launch to whatever generic terminal the session picks). This pins nvim
+# to its dedicated ghostty profile — matching the yazi.desktop/kitty precedent.
+Exec=ghostty -e nvim %F
+TryExec=ghostty
+Icon=nvim
+Terminal=false
+StartupNotify=false
+Categories=Utility;TextEditor;Development;
+Keywords=Text;editor;vim;
+MimeType=text/plain;text/english;text/x-makefile;text/x-c;text/x-c++;text/x-chdr;text/x-csrc;text/x-c++hdr;text/x-c++src;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;text/x-python;text/x-lua;text/x-shellscript;text/markdown;text/csv;application/x-shellscript;application/json;application/toml;application/xml;application/x-yaml;text/x-log;
