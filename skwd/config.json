@@ -123,6 +123,30 @@
       "output": "/home/robbe/.config/gtk-4.0/gtk.css",
       "reload": "",
       "template": "/home/robbe/my-dots/templates/gtk-colors.tmpl"
+    },
+    {
+      "name": "kitty",
+      "output": "/home/robbe/my-dots/generated/kitty.conf",
+      "reload": "pkill -USR1 kitty >/dev/null 2>&1 || true",
+      "template": "/home/robbe/my-dots/templates/kitty.tmpl"
+    },
+    {
+      "name": "foot",
+      "output": "/home/robbe/my-dots/generated/foot-colors.ini",
+      "reload": "",
+      "template": "/home/robbe/my-dots/templates/foot.tmpl"
+    },
+    {
+      "name": "rofi",
+      "output": "/home/robbe/my-dots/generated/rofi-colors.rasi",
+      "reload": "",
+      "template": "/home/robbe/my-dots/templates/rofi.tmpl"
+    },
+    {
+      "name": "yazi",
+      "output": "/home/robbe/.config/yazi/theme.toml",
+      "reload": "",
+      "template": "/home/robbe/my-dots/templates/yazi.tmpl"
     }
   ],
   "launch": {
@@ -137,6 +161,11 @@
     "filterSwapSpeed": "fast",
     "launchSpeed": "fast"
   },
+  "plasma": {
+    "lockScreen": {
+      "mode": "off"
+    }
+  },
   "selector": {
     "livePreview": false
   },
@@ -150,7 +179,7 @@
     "pywalSaturate": "",
     "scheme": "tonal-spot",
     "staticTheme": "nord",
-    "style": "muted",
+    "style": "natural",
     "targets": [],
     "wallpaperProfiles": [],
     "wallustColorspace": "",
