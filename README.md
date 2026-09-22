@@ -33,7 +33,6 @@ Run `bin/doctor.sh` (read-only) to verify every link is healthy. Adding a new tr
 
 matugen renders templates (`matugen/templates/`) to **`generated/`** (gitignored), then post_hooks reload the apps. Consumers read from there:
 - `generated/hypr-colors.lua` ← `hypr/palette.lua` overlays it onto `hypr/colors.lua`
-- `generated/hypr-colors.conf` ← `hypr/hyprland.conf` sources it (legacy, see below)
 - `generated/kitty.conf` ← `kitty/kitty.conf` includes it (SIGUSR1 reload)
 - `generated/foot-colors.ini` ← `foot/foot.ini` pulls it in with `include` (no reload signal; next launch)
 - `generated/hyprlock-colors.conf` ← `hypr/hyprlock.conf` sources it
@@ -93,11 +92,12 @@ hypr/palette.lua           fallback + matugen override → resolved palette
 hypr/hyprland/*.lua        variables, monitors, input, animations, rules, keybinds, special, execs
 ```
 
-Hyprland picks `hyprland.lua` over `hyprland.conf` **once, at startup** — there
-is no live switching. The old `.conf` tree is still tracked as a rollback path:
-rename `hypr/hyprland.lua` out of the way and the next login falls back to
-hyprlang. Delete both the `.conf` files and matugen's `[templates.hypr-colors]`
-block once the Lua config has been daily-driven.
+The parallel `.conf` tree that this replaced is gone (it was kept as a rollback
+path until the Lua config had been daily-driven). `hyprlock.conf` and
+`hypridle.conf` stay hyprlang — those tools are not the compositor and never
+took Lua. To check which config is live: `hyprctl dispatch` evaluates **Lua**, so
+a legacy `hyprctl dispatch exec echo` fails with a Lua syntax error while
+`hyprctl dispatch 'hl.dsp.exec_cmd("true")'` returns `ok`.
 
 Notes that bit during the migration and are easy to re-break:
 

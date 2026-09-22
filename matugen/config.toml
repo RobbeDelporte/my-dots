@@ -28,15 +28,6 @@ output_path = "~/my-dots/generated/hypr-colors.lua"
 # Redirect both streams so post_hook output never pollutes matugen's --json capture.
 post_hook   = "hyprctl reload >/dev/null 2>&1"
 
-# TRANSITIONAL: the hyprlang half of the config (hypr/hyprland.conf + hypr/*.conf)
-# is kept as a rollback path until the Lua config has been daily-driven. It still
-# needs its own generated palette, so this renders the same roles in `$var = hex`
-# form. Delete this block and hypr-colors.tmpl together with the .conf configs.
-# No post_hook here — the Lua template above already triggers the single reload.
-[templates.hypr-colors]
-input_path  = "~/.config/matugen/templates/hypr-colors.tmpl"
-output_path = "~/my-dots/generated/hypr-colors.conf"
-
 [templates.kitty]
 input_path  = "~/.config/matugen/templates/kitty.tmpl"
 output_path = "~/my-dots/generated/kitty.conf"

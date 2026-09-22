@@ -4,8 +4,8 @@
 --
 -- Bare hex, no leading `#` and no alpha — consumers append their own alpha
 -- suffix inline, e.g. "rgba(" .. p.primary .. "e6)". Keep this key set in sync
--- with matugen/templates/hypr-colors.tmpl: identical keys on both sides means
--- the override is total and no stale fallback value can leak through.
+-- with matugen/templates/hypr-colors-lua.tmpl: identical keys on both sides
+-- means the override is total and no stale fallback value can leak through.
 
 return {
     -- Core surface / background
