@@ -1,36 +1,189 @@
 {
   "components": {
     "wallpaperSelector": {
+      "activePreset": {
+        "grid": "Style 2",
+        "slices": "Style 1"
+      },
+      "cornerBL": 4,
+      "cornerBR": 4,
+      "cornerTL": 4,
+      "cornerTR": 4,
       "displayMode": "wall",
-      "enabled": true
+      "enabled": true,
+      "flipBackReveal": false,
+      "flipShader": false,
+      "gridCornerRadius": 4,
+      "gridLayout": "justified",
+      "lastAppliedKey": "static:crashed-spaceship.jpg",
+      "presets": {
+        "grid": [
+          {
+            "name": "Style 2",
+            "params": {
+              "gridBorderWidth": 2.0,
+              "gridColumns": 6,
+              "gridCornerRadius": 4.0,
+              "gridCylinderBend": 65.0,
+              "gridCylinderRadius": 720.0,
+              "gridFlowFrequency": 1.0,
+              "gridFlowWave": 0.0,
+              "gridGapX": 8.0,
+              "gridGapY": 8.0,
+              "gridLayout": "justified",
+              "gridRoundCorners": true,
+              "gridRows": 3,
+              "gridScaleVariance": 0.0,
+              "gridScatter": 0.0,
+              "gridSelectedScale": 100.0,
+              "gridStageDepthAngle": 0.0,
+              "gridStagePerspective": 0.0,
+              "gridStageRotation": 0.0,
+              "gridStageScale": 100.0,
+              "gridStageShearX": 0.0,
+              "gridStageShearY": 0.0,
+              "gridStageX": 0.0,
+              "gridStageY": 0.0,
+              "gridStagger": 50.0,
+              "gridThumbHeight": 169.0,
+              "gridThumbWidth": 300.0
+            }
+          }
+        ],
+        "slices": [
+          {
+            "name": "Style 1",
+            "params": {
+              "cornerBL": 16.0,
+              "cornerBR": 16.0,
+              "cornerTL": 16.0,
+              "cornerTR": 16.0,
+              "expandedWidth": 924.0,
+              "roundCorners": false,
+              "skewOffset": 35.0,
+              "sliceEdgeTilt": 0.0,
+              "sliceHeight": 520.0,
+              "sliceSpacing": -30.0,
+              "sliceStageX": 0.0,
+              "sliceStageY": 0.0,
+              "sliceWidth": 135.0,
+              "sliceWobble": false,
+              "sliceWobbleStrength": 100.0,
+              "visibleCount": 12
+            }
+          }
+        ]
+      },
+      "roundCorners": true,
+      "startPosition": "applied"
     }
   },
-  "defaultMatugenConfig": "/home/robbe/.config/matugen/config.toml",
-  "externalMatugenCommand": "matugen -c %config% image %path% -t %scheme% -m %mode% --source-color-index %index%",
-  "features": {
-    "matugen": true
+  "filterBar": {
+    "visualStyle": "match"
   },
   "general": {
+    "applyOnPickerMonitor": false,
+    "closeOnSelection": true,
+    "notifyOnWallpaperChange": false,
     "randomRotate": false
+  },
+  "integrations": [
+    {
+      "name": "hypr-colors",
+      "output": "/home/robbe/my-dots/generated/hypr-colors.lua",
+      "reload": "hyprctl reload >/dev/null 2>&1 || true",
+      "template": "/home/robbe/.config/matugen/templates/hypr-colors-lua.tmpl"
+    },
+    {
+      "name": "kitty",
+      "output": "/home/robbe/my-dots/generated/kitty.conf",
+      "reload": "pkill -USR1 kitty >/dev/null 2>&1 || true",
+      "template": "/home/robbe/.config/matugen/templates/kitty.tmpl"
+    },
+    {
+      "name": "foot",
+      "output": "/home/robbe/my-dots/generated/foot-colors.ini",
+      "reload": "",
+      "template": "/home/robbe/.config/matugen/templates/foot.tmpl"
+    },
+    {
+      "name": "rofi",
+      "output": "/home/robbe/my-dots/generated/rofi-colors.rasi",
+      "reload": "",
+      "template": "/home/robbe/.config/matugen/templates/rofi.tmpl"
+    },
+    {
+      "name": "hyprlock",
+      "output": "/home/robbe/my-dots/generated/hyprlock-colors.conf",
+      "reload": "",
+      "template": "/home/robbe/.config/matugen/templates/hyprlock.tmpl"
+    },
+    {
+      "name": "swayimg",
+      "output": "/home/robbe/my-dots/generated/swayimg-colors.lua",
+      "reload": "",
+      "template": "/home/robbe/.config/matugen/templates/swayimg-colors.tmpl"
+    },
+    {
+      "name": "nvim",
+      "output": "/home/robbe/my-dots/generated/nvim-colors.lua",
+      "reload": "",
+      "template": "/home/robbe/.config/matugen/templates/nvim.tmpl"
+    },
+    {
+      "name": "yazi",
+      "output": "/home/robbe/.config/yazi/theme.toml",
+      "reload": "",
+      "template": "/home/robbe/.config/matugen/templates/yazi.tmpl"
+    },
+    {
+      "name": "gtk3",
+      "output": "/home/robbe/.config/gtk-3.0/gtk.css",
+      "reload": "",
+      "template": "/home/robbe/.config/matugen/templates/gtk-colors.tmpl"
+    },
+    {
+      "name": "gtk4",
+      "output": "/home/robbe/.config/gtk-4.0/gtk.css",
+      "reload": "",
+      "template": "/home/robbe/.config/matugen/templates/gtk-colors.tmpl"
+    }
+  ],
+  "launch": {
+    "animation": "none"
   },
   "matugen": {
     "colorIndex": 0,
     "schemeType": "scheme-fidelity"
   },
+  "motion": {
+    "fastMs": 100,
+    "filterSwapSpeed": "fast",
+    "launchSpeed": "fast"
+  },
+  "selector": {
+    "livePreview": false
+  },
   "theme": {
     "authority": "skwd",
-    "engine": "matugen",
-    "mode": "auto",
+    "engine": "native",
+    "mode": "dark",
     "noctaliaPureBlack": false,
     "noctaliaScheme": "",
     "policy": "wallpaper",
     "pywalSaturate": "",
     "scheme": "tonal-spot",
     "staticTheme": "nord",
-    "style": "pastel",
+    "style": "muted",
     "targets": [],
     "wallpaperProfiles": [],
     "wallustColorspace": "",
     "wallustPalette": ""
+  },
+  "transition": {
+    "enabled": false
+  },
+  "videoPreview": {
+    "enabled": false
   }
 }

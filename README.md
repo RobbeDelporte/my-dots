@@ -9,7 +9,7 @@ Hyprland + wayle dotfiles. Symlinked into `~/.config` **manually** (no installer
 | `hypr/` | `~/.config/hypr` | whole-dir | only hand-authored files |
 | `kitty/` | `~/.config/kitty` | whole-dir | only hand-authored files |
 | `foot/` | `~/.config/foot` | whole-dir | only hand-authored files; nvim's terminal (see below) |
-| `matugen/` | `~/.config/matugen` | whole-dir | only hand-authored files |
+| `matugen/` | `~/.config/matugen` | whole-dir | colour templates, rendered by skwd (name is historical) |
 | `nvim/` | `~/.config/nvim` | whole-dir | vendored config (~140 files) |
 | `yazi/` | `~/.config/yazi` | whole-dir | `theme.toml` generated here (gitignored) |
 | `rofi/` | `~/.config/rofi` | whole-dir | colors live in `generated/`, so dir stays clean |
@@ -29,9 +29,9 @@ Hyprland + wayle dotfiles. Symlinked into `~/.config` **manually** (no installer
 
 Run `bin/doctor.sh` (read-only) to verify every link is healthy. Adding a new tracked app or per-file link means updating the `links` array in that script.
 
-## matugen output flow
+## colour output flow
 
-matugen renders templates (`matugen/templates/`) to **`generated/`** (gitignored), then post_hooks reload the apps. Consumers read from there:
+skwd renders the templates in `matugen/templates/` to **`generated/`** (gitignored) on every wallpaper change, then each integration's reload command refreshes the app. Consumers read from there:
 - `generated/hypr-colors.lua` ← `hypr/palette.lua` overlays it onto `hypr/colors.lua`
 - `generated/kitty.conf` ← `kitty/kitty.conf` includes it (SIGUSR1 reload)
 - `generated/foot-colors.ini` ← `foot/foot.ini` pulls it in with `include` (no reload signal; next launch)
@@ -51,7 +51,7 @@ Two, on purpose:
 Splitting them is what lets nvim run near-zero padding, an opaque background and
 a block cursor while the shell terminal keeps its roomy, translucent, beam-cursor
 look. Both are driven from `hypr/hyprland/variables.lua` (`terminal`, `editor`,
-`editorTerminal`, `keys.terminal`, `keys.editor`) and both follow matugen, sharing
+`editorTerminal`, `keys.terminal`, `keys.editor`) and both follow the palette, sharing
 one role mapping across `kitty.tmpl` and `foot.tmpl`.
 
 Launching nvim from anywhere else lands in foot too: `nvim.desktop` (repo root,
@@ -70,7 +70,7 @@ this replaced:
   path is hardcoded any more.
 - **No reload signal at all.** `SIGUSR1`/`SIGUSR2` switch between the
   already-loaded dark/light themes; neither re-reads `foot.ini`. Colors land on
-  next launch, hence no matugen post_hook (kitty's `pkill -USR1` has no analogue).
+  next launch, hence no reload command (kitty's `pkill -USR1` has no analogue).
 - **Rebinding replaces a default combo list**, so the seven `[key-bindings]`
   lines are themselves the unbind of foot's bare `Control+equal/minus/0` and
   `Shift+Page_Up/Down` grabs — the keys nvim needs back. With Shift as a
@@ -88,7 +88,7 @@ The compositor config is therefore Lua:
 ```
 hypr/hyprland.lua          entry point; require()s everything below, in order
 hypr/colors.lua            tracked static colour fallback
-hypr/palette.lua           fallback + matugen override → resolved palette
+hypr/palette.lua           fallback + generated override → resolved palette
 hypr/hyprland/*.lua        variables, monitors, input, animations, rules, keybinds, special, execs
 ```
 
@@ -142,13 +142,35 @@ Note: wayle reformats `runtime.toml` (strips comments, reorders, expands floats)
 
 `skwd-helm` is the CLI — `apply`, `current --json`, `retheme`, `random`, `history`, `watch`. Anything needing the current wallpaper path reads `skwd-helm current --json` and filters for `type == "static"`; hyprlock draws an image and cannot render a video or a scene, so while one of those is up it keeps the previous still.
 
-**Theming.** skwd drives *this repo's* `matugen/config.toml` through its **External Matugen** setting (Settings → Matugen → Config path = `~/.config/matugen/config.toml`). Every template here renders exactly as it did when wayle ran matugen — and now video and scenes theme the desktop too, since skwd extracts from a frame rather than from the source file.
+**Theming.** skwd's built-in **Iris** engine derives the palette from a frame of
+the wallpaper — so video and Wallpaper Engine scenes theme the desktop, which
+matugen could not do from an `.mp4` path. matugen is no longer used at all.
 
-skwd's own **App themes must all stay Off**. It themes apps by writing into `~/.config/<app>` behind `SkwdManaged` markers — those are symlinks into this repo, and it would fight the matugen templates that own those files. Its 21 seeded templates in `~/.config/skwd-wall-v2/matugen/templates/` are unused for the same reason.
+Rendering runs through skwd's **Integrations** (Settings → Matugen → Integrations):
+ten entries, each mapping one template in `matugen/templates/` to its output and
+an optional reload command. They are stored in `skwd/config.json`. skwd's
+renderer takes the same `{{colors.<role>.default.hex}}` / `.hex_stripped` tokens
+matugen did, so the templates were carried over unchanged.
+
+Two things worth knowing:
+
+- **The engine setting is load-bearing and silent.** If `theme.engine` flips from
+  `native` back to something else, integrations stop rendering and every app
+  silently keeps the *last* wallpaper's colours. Check it with
+  `jq -r .theme.engine ~/.config/skwd-wall-v2/config.json`, and the journal
+  (`journalctl --user -u skwd-walld -g 'static templates'`) should log
+  `rendered 10 integration file(s)` on every apply.
+- **App themes stays Off** for kitty, rofi, yazi and foot. Those show *"Setup
+  needs review"* in skwd's settings — that is skwd noticing the files already
+  carry colours it did not write. It is a detection notice, not an error, and
+  turning them on would make skwd write into `~/.config/<app>`, which are
+  symlinks into this repo. `btop` is the one app left on managed theming, since
+  nothing here templates it.
 
 **The bar does not follow the wallpaper.** That is the one deliberate gap: wayle's palette is static (see **wayle**). To re-pin it to the current wallpaper:
 
-    matugen --show-source-colors image "$(skwd-helm current --json | jq -r 'first(.outputs[].path)')"
+    # read the current palette straight out of the rendered output
+    grep -E '^(background|color4) ' ~/my-dots/generated/kitty.conf
     wayle config set styling.palette '{bg="#…",surface="#…",elevated="#…",fg="#…",fg-muted="#…",primary="#…",red="#…",yellow="#f9e2af",green="#a6e3a1",blue="#…"}'
 
 Note `wayle config set` takes a **TOML inline table**; the JSON form is silently ignored, and its `Set … = …` echo prints the *pre-change* value — only a following `wayle config get` is evidence.
@@ -156,5 +178,5 @@ Note `wayle config set` takes a **TOML inline table**; the JSON form is silently
 ## Layout
 
     bin/        repo-management scripts (doctor.sh) — not symlinked
-    generated/  matugen output sink — gitignored
+    generated/  colour output sink — gitignored
     <app>/      per-app config, symlinked into ~/.config (see map above)
