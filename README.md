@@ -128,11 +128,31 @@ changes without logging out, run a nested instance:
 
 `~/.config/wayle` is a whole-dir symlink to `wayle/`. This setup is **GUI-driven**: you change settings in the wayle settings app, which writes **`runtime.toml`** — the **single tracked source of truth** (`my-dots/wayle/runtime.toml`). Because the whole dir is symlinked, those GUI writes land in the tracked file automatically, so your changes show up in `git status`.
 
-wayle layers config as `defaults → config.toml → runtime.toml`; since everything lives in `runtime.toml`, **`config.toml` is intentionally empty and gitignored** (it's wayle's optional hand-edit layer, unused here). Everything else in the dir (`schema.json`, `config.toml.example`, `themes/`, `styles/`, `tombi.toml`) is wayle-generated and gitignored too — so `wayle/` tracks exactly one file. **`styling.theme-provider` must stay `"matugen"`** (self-theme from the wallpaper).
+wayle layers config as `defaults → config.toml → runtime.toml`; since everything lives in `runtime.toml`, **`config.toml` is intentionally empty and gitignored** (it's wayle's optional hand-edit layer, unused here). Everything else in the dir (`schema.json`, `config.toml.example`, `themes/`, `styles/`, `tombi.toml`) is wayle-generated and gitignored too — so `wayle/` tracks exactly one file. **`styling.theme-provider` must stay `"wayle"`** — the static provider. wayle no longer extracts colours: skwd-wall owns the wallpaper, so wayle has no image to read. The bar therefore uses the fixed ten-colour `styling.palette` in `runtime.toml`, set once by hand. To re-pin it to the current wallpaper, render the palette and set it in one call (see **wallpapers** below).
 
 Note: wayle reformats `runtime.toml` (strips comments, reorders, expands floats) whenever the GUI writes it — expected. If the live bar ever ignores GUI edits right after a dotfiles change, run `wayle panel restart` (the daemon needs to re-attach to the dir).
 
-**Do not remove the `awww` package** — it is wayle's wallpaper backend daemon (`wayle wallpaper set` drives `awww-daemon`). Removing it breaks wallpapers and the matugen self-theming chain.
+**wayle no longer draws the wallpaper.** `wallpaper.engine-enabled = false`, which is wayle's documented mode for running an external wallpaper tool while keeping the bar. See **wallpapers**.
+
+## wallpapers
+
+[skwd-wall](https://github.com/liixini/skwd-wall) is the wallpaper engine: stills, video and Wallpaper Engine scenes, rendered through Vulkan. `skwd-walld.service` (systemd **user** unit) owns wallpaper state across reboots; `skwd-paper` draws it. `SUPER+SHIFT+W` opens the picker.
+
+    yay -S skwd-wall-v2-bin skwd-lens-bin
+    systemctl --user enable --now skwd-walld.service
+
+`skwd-helm` is the CLI — `apply`, `current --json`, `retheme`, `random`, `history`, `watch`. Anything needing the current wallpaper path reads `skwd-helm current --json` and filters for `type == "static"`; hyprlock and the eww clock draw an image and cannot render a video or a scene, so while one of those is up they keep the previous still.
+
+**Theming.** skwd drives *this repo's* `matugen/config.toml` through its **External Matugen** setting (Settings → Matugen → Config path = `~/.config/matugen/config.toml`). Every template here renders exactly as it did when wayle ran matugen — and now video and scenes theme the desktop too, since skwd extracts from a frame rather than from the source file.
+
+skwd's own **App themes must all stay Off**. It themes apps by writing into `~/.config/<app>` behind `SkwdManaged` markers — those are symlinks into this repo, and it would fight the matugen templates that own those files. Its 21 seeded templates in `~/.config/skwd-wall-v2/matugen/templates/` are unused for the same reason.
+
+**The bar does not follow the wallpaper.** That is the one deliberate gap: wayle's palette is static (see **wayle**). To re-pin it to the current wallpaper:
+
+    matugen --show-source-colors image "$(skwd-helm current --json | jq -r 'first(.outputs[].path)')"
+    wayle config set styling.palette '{bg="#…",surface="#…",elevated="#…",fg="#…",fg-muted="#…",primary="#…",red="#…",yellow="#f9e2af",green="#a6e3a1",blue="#…"}'
+
+Note `wayle config set` takes a **TOML inline table**; the JSON form is silently ignored, and its `Set … = …` echo prints the *pre-change* value — only a following `wayle config get` is evidence.
 
 ## Layout
 

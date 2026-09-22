@@ -38,7 +38,19 @@ right = [
 ]
 
 [styling]
-theme-provider = "matugen"
+theme-provider = "wayle"
+
+[styling.palette]
+bg = "#0f1417"
+surface = "#1b2023"
+elevated = "#262b2e"
+fg = "#dfe3e7"
+fg-muted = "#c0c8cd"
+primary = "#8bd0f0"
+red = "#ffb4ab"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+blue = "#8bd0f0"
 
 [modules.bluetooth]
 label-show = false
@@ -89,5 +101,4 @@ mount-point = [
 ]
 
 [wallpaper]
-transition-type = "none"
-transition-duration = 0.0
+engine-enabled = false
