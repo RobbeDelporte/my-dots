@@ -9,7 +9,6 @@ Hyprland + wayle dotfiles. Symlinked into `~/.config` **manually** (no installer
 | `hypr/` | `~/.config/hypr` | whole-dir | only hand-authored files |
 | `kitty/` | `~/.config/kitty` | whole-dir | only hand-authored files |
 | `foot/` | `~/.config/foot` | whole-dir | only hand-authored files; nvim's terminal (see below) |
-| `matugen/` | `~/.config/matugen` | whole-dir | colour templates, rendered by skwd (name is historical) |
 | `nvim/` | `~/.config/nvim` | whole-dir | vendored config (~140 files) |
 | `yazi/` | `~/.config/yazi` | whole-dir | `theme.toml` generated here (gitignored) |
 | `rofi/` | `~/.config/rofi` | whole-dir | colors live in `generated/`, so dir stays clean |
@@ -31,7 +30,7 @@ Run `bin/doctor.sh` (read-only) to verify every link is healthy. Adding a new tr
 
 ## colour output flow
 
-skwd renders the templates in `matugen/templates/` to **`generated/`** (gitignored) on every wallpaper change, then each integration's reload command refreshes the app. Consumers read from there:
+skwd renders the templates in `templates/` to **`generated/`** (gitignored) on every wallpaper change, then each integration's reload command refreshes the app. Consumers read from there:
 - `generated/hypr-colors.lua` ← `hypr/palette.lua` overlays it onto `hypr/colors.lua`
 - `generated/kitty.conf` ← `kitty/kitty.conf` includes it (SIGUSR1 reload)
 - `generated/foot-colors.ini` ← `foot/foot.ini` pulls it in with `include` (no reload signal; next launch)
@@ -147,7 +146,7 @@ the wallpaper — so video and Wallpaper Engine scenes theme the desktop, which
 matugen could not do from an `.mp4` path. matugen is no longer used at all.
 
 Rendering runs through skwd's **Integrations** (Settings → Matugen → Integrations):
-ten entries, each mapping one template in `matugen/templates/` to its output and
+six entries, each mapping one template in `templates/` to its output and
 an optional reload command. They are stored in `skwd/config.json`. skwd's
 renderer takes the same `{{colors.<role>.default.hex}}` / `.hex_stripped` tokens
 matugen did, so the templates were carried over unchanged.
@@ -159,13 +158,12 @@ Two things worth knowing:
   silently keeps the *last* wallpaper's colours. Check it with
   `jq -r .theme.engine ~/.config/skwd-wall-v2/config.json`, and the journal
   (`journalctl --user -u skwd-walld -g 'static templates'`) should log
-  `rendered 10 integration file(s)` on every apply.
-- **App themes stays Off** for kitty, rofi, yazi and foot. Those show *"Setup
-  needs review"* in skwd's settings — that is skwd noticing the files already
-  carry colours it did not write. It is a detection notice, not an error, and
-  turning them on would make skwd write into `~/.config/<app>`, which are
-  symlinks into this repo. `btop` is the one app left on managed theming, since
-  nothing here templates it.
+  `rendered 6 integration file(s)` on every apply.
+- **kitty, foot, rofi, yazi and btop use skwd's own managed themes**, not
+  templates here — skwd ships templates for them and writes `skwd-managed`
+  files into their config dirs. An app cannot be managed while an Integration
+  also targets it; skwd reports *"This app already has a custom output"* and
+  blocks the toggle, so the two mechanisms are mutually exclusive per app.
 
 **The bar does not follow the wallpaper.** That is the one deliberate gap: wayle's palette is static (see **wayle**). To re-pin it to the current wallpaper:
 
@@ -179,4 +177,5 @@ Note `wayle config set` takes a **TOML inline table**; the JSON form is silently
 
     bin/        repo-management scripts (doctor.sh) — not symlinked
     generated/  colour output sink — gitignored
+    templates/  colour templates rendered by skwd (absolute paths in skwd/config.json)
     <app>/      per-app config, symlinked into ~/.config (see map above)

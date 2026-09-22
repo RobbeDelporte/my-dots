@@ -1,9 +1,9 @@
 -- swayimg viewer config (static; tracked in my-dots, symlinked to ~/.config/swayimg).
--- Behaviour + keybinds live here and are safe to hand-edit. Colours are matugen-
+-- Behaviour + keybinds live here and are safe to hand-edit. Colours are
 -- generated separately and pulled in via dofile (see below) so they re-theme with
 -- the wallpaper without clobbering this file.
 
--- Current matugen palette. pcall so a missing render (fresh checkout) doesn't break
+-- Current palette. pcall so a missing render (fresh checkout) doesn't break
 -- swayimg — it just falls back to built-in default colours.
 pcall(dofile, os.getenv("HOME") .. "/my-dots/generated/swayimg-colors.lua")
 

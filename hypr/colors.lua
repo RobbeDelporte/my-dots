@@ -1,10 +1,10 @@
--- Tracked static colour fallback. Used when matugen has never rendered (fresh
+-- Tracked static colour fallback. Used when nothing has been rendered yet (fresh
 -- machine, first boot before a wallpaper is set). palette.lua overlays the
 -- generated palette on top of this, key by key.
 --
 -- Bare hex, no leading `#` and no alpha — consumers append their own alpha
 -- suffix inline, e.g. "rgba(" .. p.primary .. "e6)". Keep this key set in sync
--- with matugen/templates/hypr-colors-lua.tmpl: identical keys on both sides
+-- with templates/hypr-colors-lua.tmpl: identical keys on both sides
 -- means the override is total and no stale fallback value can leak through.
 
 return {

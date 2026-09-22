@@ -1,7 +1,7 @@
 -- Resolves the live colour palette: tracked static fallback (colors.lua)
--- overlaid with matugen's render, if one exists.
+-- overlaid with skwd's render, if one exists.
 --
--- ~/.config/hypr is a whole-dir symlink to the repo, so matugen must NOT write
+-- ~/.config/hypr is a whole-dir symlink to the repo, so the renderer must NOT write
 -- inside it (it would clobber the tracked colors.lua). The generated palette
 -- lands in the gitignored ~/my-dots/generated/ sink instead, and is pulled in
 -- here by absolute path.
@@ -9,7 +9,7 @@
 -- Under hyprlang a missing `source =` was a harmless warning. Under Lua a bare
 -- require() of a nonexistent module raises a real error that aborts the whole
 -- calling file — which would take the entire config down on a machine that has
--- never run matugen. Hence the explicit existence check plus pcall: absent or
+-- never rendered. Hence the explicit existence check plus pcall: absent or
 -- malformed generated palette degrades to the static fallback, nothing else.
 
 local palette = require("colors")

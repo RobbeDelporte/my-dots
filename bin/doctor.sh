@@ -18,7 +18,6 @@ links=(
   "$CFG/hypr|hypr"
   "$CFG/kitty|kitty"
   "$CFG/foot|foot"
-  "$CFG/matugen|matugen"
   "$CFG/nvim|nvim"
   "$CFG/yazi|yazi"
   "$CFG/rofi|rofi"

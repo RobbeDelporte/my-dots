@@ -92,61 +92,37 @@
       "name": "hypr-colors",
       "output": "/home/robbe/my-dots/generated/hypr-colors.lua",
       "reload": "hyprctl reload >/dev/null 2>&1 || true",
-      "template": "/home/robbe/.config/matugen/templates/hypr-colors-lua.tmpl"
-    },
-    {
-      "name": "kitty",
-      "output": "/home/robbe/my-dots/generated/kitty.conf",
-      "reload": "pkill -USR1 kitty >/dev/null 2>&1 || true",
-      "template": "/home/robbe/.config/matugen/templates/kitty.tmpl"
-    },
-    {
-      "name": "foot",
-      "output": "/home/robbe/my-dots/generated/foot-colors.ini",
-      "reload": "",
-      "template": "/home/robbe/.config/matugen/templates/foot.tmpl"
-    },
-    {
-      "name": "rofi",
-      "output": "/home/robbe/my-dots/generated/rofi-colors.rasi",
-      "reload": "",
-      "template": "/home/robbe/.config/matugen/templates/rofi.tmpl"
+      "template": "/home/robbe/my-dots/templates/hypr-colors-lua.tmpl"
     },
     {
       "name": "hyprlock",
       "output": "/home/robbe/my-dots/generated/hyprlock-colors.conf",
       "reload": "",
-      "template": "/home/robbe/.config/matugen/templates/hyprlock.tmpl"
+      "template": "/home/robbe/my-dots/templates/hyprlock.tmpl"
     },
     {
       "name": "swayimg",
       "output": "/home/robbe/my-dots/generated/swayimg-colors.lua",
       "reload": "",
-      "template": "/home/robbe/.config/matugen/templates/swayimg-colors.tmpl"
+      "template": "/home/robbe/my-dots/templates/swayimg-colors.tmpl"
     },
     {
       "name": "nvim",
       "output": "/home/robbe/my-dots/generated/nvim-colors.lua",
       "reload": "",
-      "template": "/home/robbe/.config/matugen/templates/nvim.tmpl"
-    },
-    {
-      "name": "yazi",
-      "output": "/home/robbe/.config/yazi/theme.toml",
-      "reload": "",
-      "template": "/home/robbe/.config/matugen/templates/yazi.tmpl"
+      "template": "/home/robbe/my-dots/templates/nvim.tmpl"
     },
     {
       "name": "gtk3",
       "output": "/home/robbe/.config/gtk-3.0/gtk.css",
       "reload": "",
-      "template": "/home/robbe/.config/matugen/templates/gtk-colors.tmpl"
+      "template": "/home/robbe/my-dots/templates/gtk-colors.tmpl"
     },
     {
       "name": "gtk4",
       "output": "/home/robbe/.config/gtk-4.0/gtk.css",
       "reload": "",
-      "template": "/home/robbe/.config/matugen/templates/gtk-colors.tmpl"
+      "template": "/home/robbe/my-dots/templates/gtk-colors.tmpl"
     }
   ],
   "launch": {
