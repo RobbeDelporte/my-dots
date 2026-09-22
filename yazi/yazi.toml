@@ -18,18 +18,21 @@ cache_dir  = ""
 image_filter = "triangle"
 image_quality = 75
 
+# Opener `run` strings take yazi's own placeholders, not shell positionals:
+# %s = all paths, %sN = Nth path, %dN = dirname of the Nth. Since yazi 26
+# a legacy "$@" expands to nothing and the opener runs with no arguments.
 [opener]
 edit = [
-    { run = 'nvim "$@"', desc = "Open in Neovim", block = true, for = "linux" },
+    { run = 'nvim %s', desc = "Open in Neovim", block = true, for = "linux" },
 ]
 open = [
-    { run = 'xdg-open "$@"', desc = "Open with xdg-open", for = "linux" },
+    { run = 'xdg-open %s1', desc = "Open with xdg-open", for = "linux" },
 ]
 reveal = [
-    { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal in xdg-open", for = "linux" },
+    { run = 'xdg-open %d1', desc = "Reveal in xdg-open", for = "linux" },
 ]
 glow = [
-    { run = 'glow -p "$@"', desc = "Preview with glow", block = true, for = "linux" },
+    { run = 'glow -p %s', desc = "Preview with glow", block = true, for = "linux" },
 ]
 
 [open]
