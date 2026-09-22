@@ -42,7 +42,7 @@ upsert_position() {
 }
 
 # Live wallpaper path (same parse as reposition.sh).
-current_wallpaper() { awww query 2>/dev/null | sed -n 's/.*image: //p' | head -1; }
+current_wallpaper() { skwd-helm current --json 2>/dev/null | jq -r 'first(.outputs[] | select(.type == "static") | .path) // empty'; }
 
 # Echo "<x> <y>": the LOGICAL layout origin of the focused output, so the editor
 # opens on (and seeds from) the screen the user is on. Matched against

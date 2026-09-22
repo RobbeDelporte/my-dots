@@ -13,7 +13,7 @@
 #     --reload          force, AND re-parse styles while the windows are closed
 #                       so new matugen colours apply in the SAME open animation
 #                       (used by matugen's eww post_hook on every theme render)
-#     <wallpaper-path>  explicit path (wallpicker passes this; race-free).
+#     <wallpaper-path>  explicit path (a caller may pass this; race-free).
 #                       Omitted -> read the live path from `awww query`.
 #
 # Without --open it reopens windows only when the resolved position actually
@@ -35,7 +35,7 @@ for a in "$@"; do
   esac
 done
 
-[[ -z "$wall" ]] && wall=$(awww query 2>/dev/null | sed -n 's/.*image: //p' | head -1 || true)
+[[ -z "$wall" ]] && wall=$(skwd-helm current --json 2>/dev/null | jq -r 'first(.outputs[] | select(.type == "static") | .path) // empty' || true)
 base=$(basename "${wall:-}")
 
 # Defaults (the fallback when nothing matches).
@@ -69,7 +69,7 @@ if [[ "$force" -eq 0 && "$new" == "$prev" ]]; then
 fi
 mkdir -p "$(dirname "$state")"; printf '%s' "$new" > "$state"
 
-n=$(awww query 2>/dev/null | grep -c 'currently displaying' || true)
+n=$(skwd-helm current --json 2>/dev/null | jq '[.outputs[] | select(.current != "")] | length' 2>/dev/null || true)
 [[ "$n" =~ ^[0-9]+$ && "$n" -ge 1 ]] || n=1
 
 # Close every clock FIRST, then (for --reload) re-parse styles while nothing is

@@ -9,11 +9,13 @@ set -euo pipefail
 
 state="${XDG_STATE_HOME:-$HOME/.local/state}/wayle/hyprlock-wallpaper.conf"
 
-# awww (swww fork) is the wallpaper daemon. `query` prints, per output:
-#   "<name>: WxH, scale: S, currently displaying: image: /path/to/wall.png"
-# Grab the path after the last "image: "; first line is enough (one wallpaper
-# for all monitors here). `|| true` so a stopped daemon never blocks the lock.
-wall=$(awww query 2>/dev/null | sed -n 's/.*image: //p' | head -1 || true)
+# skwd-wall is the wallpaper engine. `skwd-helm current --json` prints, per
+# output: { name, path, current, type: static|video|we, ... }. Take the first
+# STATIC one -- hyprlock draws an image and cannot play a video or a Wallpaper
+# Engine scene, so while one of those is up we leave the previous still in
+# place rather than handing hyprlock something it cannot render.
+# `|| true` so a stopped daemon never blocks the lock.
+wall=$(skwd-helm current --json 2>/dev/null | jq -r 'first(.outputs[] | select(.type == "static") | .path) // empty' || true)
 
 if [[ -n "${wall:-}" && -f "$wall" ]]; then
     mkdir -p "$(dirname "$state")"
