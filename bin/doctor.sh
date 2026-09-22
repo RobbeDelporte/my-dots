@@ -17,7 +17,7 @@ fail=0
 links=(
   "$CFG/hypr|hypr"
   "$CFG/kitty|kitty"
-  "$CFG/ghostty|ghostty"
+  "$CFG/foot|foot"
   "$CFG/matugen|matugen"
   "$CFG/nvim|nvim"
   "$CFG/yazi|yazi"

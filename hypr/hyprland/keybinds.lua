@@ -174,8 +174,10 @@ hl.bind("SUPER + L", hl.dsp.exec_cmd(SCRIPTS .. "/lock.sh"))
 
 -- ── Apps ──
 hl.bind(v.keys.terminal, hl.dsp.exec_cmd("app2unit -- " .. v.terminal))
--- nvim runs in its own terminal (v.editorTerminal), not v.terminal — see ghostty/config.
-hl.bind(v.keys.editor, hl.dsp.exec_cmd("app2unit -- " .. v.editorTerminal .. " -e " .. v.editor))
+-- nvim runs in its own terminal (v.editorTerminal), not v.terminal — see foot/foot.ini.
+-- The command is positional (`foot nvim`), matching yazi.desktop's `kitty yazi`;
+-- ghostty's `-e` is gone (foot accepts it only as an ignored xterm compat flag).
+hl.bind(v.keys.editor, hl.dsp.exec_cmd("app2unit -- " .. v.editorTerminal .. " " .. v.editor))
 
 -- ── Utilities ──
 hl.bind("Print", hl.dsp.exec_cmd(SCRIPTS .. "/screenshot.sh screen"), { locked = true })

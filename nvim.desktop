@@ -5,9 +5,9 @@ GenericName=Text Editor
 Comment=Edit text files
 # Shadows /usr/share/applications/nvim.desktop (that one is Terminal=true, which
 # hands the launch to whatever generic terminal the session picks). This pins nvim
-# to its dedicated ghostty profile — matching the yazi.desktop/kitty precedent.
-Exec=ghostty -e nvim %F
-TryExec=ghostty
+# to its dedicated foot profile — matching the yazi.desktop/kitty precedent.
+Exec=foot nvim %F
+TryExec=foot
 Icon=nvim
 Terminal=false
 StartupNotify=false

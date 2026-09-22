@@ -21,10 +21,6 @@ image/tiff=swayimg.desktop
 image/svg+xml=swayimg.desktop
 image/avif=swayimg.desktop
 image/heif=swayimg.desktop
-
-# Text/code -> nvim in its dedicated ghostty terminal (nvim.desktop lives in
-# this repo and shadows the Terminal=true one from /usr/share). Without these
-# lines codium wins these types by default. text/html stays with the browser.
 text/plain=nvim.desktop
 text/english=nvim.desktop
 text/x-makefile=nvim.desktop

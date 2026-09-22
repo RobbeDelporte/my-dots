@@ -17,7 +17,7 @@ return {
     -- nvim gets a dedicated terminal rather than sharing `terminal`: its padding,
     -- cursor and opacity are tuned for a buffer, kitty's for a shell.
     editor         = "nvim",
-    editorTerminal = "ghostty",
+    editorTerminal = "foot",
 
     -- ### Touchpad ###
     touchpadDisableTyping = true,

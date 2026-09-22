@@ -8,7 +8,7 @@ Hyprland + wayle dotfiles. Symlinked into `~/.config` **manually** (no installer
 |---|---|---|---|
 | `hypr/` | `~/.config/hypr` | whole-dir | only hand-authored files |
 | `kitty/` | `~/.config/kitty` | whole-dir | only hand-authored files |
-| `ghostty/` | `~/.config/ghostty` | whole-dir | only hand-authored files; nvim's terminal (see below) |
+| `foot/` | `~/.config/foot` | whole-dir | only hand-authored files; nvim's terminal (see below) |
 | `matugen/` | `~/.config/matugen` | whole-dir | only hand-authored files |
 | `nvim/` | `~/.config/nvim` | whole-dir | vendored config (~140 files) |
 | `yazi/` | `~/.config/yazi` | whole-dir | `theme.toml` generated here (gitignored) |
@@ -16,7 +16,7 @@ Hyprland + wayle dotfiles. Symlinked into `~/.config` **manually** (no installer
 | `wayle/` | `~/.config/wayle` | whole-dir | wayle atomically rewrites `runtime.toml`; generated files gitignored |
 | `starship.toml` | `~/.config/starship.toml` | per-file | single file |
 | `mimeapps.list` | `~/.config/mimeapps.list` | per-file | single file |
-| `nvim.desktop` | `~/.local/share/applications/nvim.desktop` | per-file | shadows the distro entry so nvim opens in ghostty |
+| `nvim.desktop` | `~/.local/share/applications/nvim.desktop` | per-file | shadows the distro entry so nvim opens in foot |
 | `yazi.desktop` | `~/.local/share/applications/yazi.desktop` | per-file | shadows the distro entry so yazi opens in kitty |
 | `gtk/settings.ini` | `~/.config/gtk-3.0/settings.ini` & `gtk-4.0/settings.ini` | per-file | dir shared with generated `gtk.css` + GTK `bookmarks`; GTK never rewrites `settings.ini` |
 | `zsh/.zshrc` | `~/.zshrc` | per-file | home dotfile |
@@ -35,7 +35,7 @@ matugen renders templates (`matugen/templates/`) to **`generated/`** (gitignored
 - `generated/hypr-colors.lua` ← `hypr/palette.lua` overlays it onto `hypr/colors.lua`
 - `generated/hypr-colors.conf` ← `hypr/hyprland.conf` sources it (legacy, see below)
 - `generated/kitty.conf` ← `kitty/kitty.conf` includes it (SIGUSR1 reload)
-- `generated/ghostty-colors.conf` ← `ghostty/config.ghostty` pulls it in with `config-file` (no reload signal; next launch)
+- `generated/foot-colors.ini` ← `foot/foot.ini` pulls it in with `include` (no reload signal; next launch)
 - `generated/hyprlock-colors.conf` ← `hypr/hyprlock.conf` sources it
 - `generated/rofi-colors.rasi` ← `rofi/config.rasi` `@import`s it
 - `yazi/theme.toml` (in the symlinked yazi dir, gitignored) and `~/.config/gtk-{3,4}.0/gtk.css` (real GTK dirs) stay in their app dirs by necessity.
@@ -47,17 +47,37 @@ Two, on purpose:
 | | binding | role | padding |
 |---|---|---|---|
 | **kitty** | `SUPER + T` | general shell work | `window_padding_width 10` |
-| **ghostty** | `SUPER + C` | nvim only (`ghostty -e nvim`) | `window-padding-x 2`, `-y 0` |
+| **foot** | `SUPER + C` | nvim only (`foot nvim`) | `pad 0x0 center` |
 
 Splitting them is what lets nvim run near-zero padding, an opaque background and
 a block cursor while the shell terminal keeps its roomy, translucent, beam-cursor
 look. Both are driven from `hypr/hyprland/variables.lua` (`terminal`, `editor`,
 `editorTerminal`, `keys.terminal`, `keys.editor`) and both follow matugen, sharing
-one role mapping across `kitty.tmpl` and `ghostty.tmpl`.
+one role mapping across `kitty.tmpl` and `foot.tmpl`.
 
-Launching nvim from anywhere else lands in ghostty too: `nvim.desktop` (repo root,
+Launching nvim from anywhere else lands in foot too: `nvim.desktop` (repo root,
 symlinked into `~/.local/share/applications`) shadows the distro's `Terminal=true`
 entry, and `mimeapps.list` points the text/code MIME types at it.
+
+foot notes, all verified against 1.28 and all different from the ghostty config
+this replaced:
+
+- **The colors section must be `[colors-dark]`.** A bare `[colors]` is rejected
+  outright (`invalid section name`), taking the whole file's colors with it.
+- **`include` has no optional form** (ghostty's `?` prefix). A missing
+  `generated/foot-colors.ini` is a config *error* — but foot drops only that one
+  directive, logs it, and keeps everything else, so `foot.ini`'s static fallback
+  palette still applies on a fresh checkout. It does expand `~/`, so no absolute
+  path is hardcoded any more.
+- **No reload signal at all.** `SIGUSR1`/`SIGUSR2` switch between the
+  already-loaded dark/light themes; neither re-reads `foot.ini`. Colors land on
+  next launch, hence no matugen post_hook (kitty's `pkill -USR1` has no analogue).
+- **Rebinding replaces a default combo list**, so the seven `[key-bindings]`
+  lines are themselves the unbind of foot's bare `Control+equal/minus/0` and
+  `Shift+Page_Up/Down` grabs — the keys nvim needs back. With Shift as a
+  modifier, only the unshifted keysym matches (`Control+Shift+equal`, never
+  `Control+Shift+plus`).
+- `foot --check-config` validates the file, including keysym names. Use it.
 
 ## Hyprland config (Lua)
 
