@@ -171,6 +171,20 @@ is inert; the bar is themed by overriding wayle's semantic CSS variables. The
 wallpaper change, `wayle/styles/index.scss` (tracked) imports it, and wayle
 hot-reloads the stylesheet — no restart, and nothing written to `runtime.toml`.
 
+**Iris does not order the Material surface roles the way the spec does.** Measured,
+darkest first: `container_lowest < surface < container_low < variant <
+container_HIGH < container == container_HIGHEST < bright`. Mapping the tiers by
+name therefore produces a hover state *darker* than the surface it sits on and an
+active state identical to it — which reads as low contrast everywhere. The ladder
+in `templates/wayle-colors.tmpl` is ordered by measured luminance, not by role
+name; re-measure before changing it rather than trusting the names.
+
+**`theme.style` governs how much colour exists at all.** Measured max chroma
+across primary/secondary/tertiary: `muted` 0.15 (effectively greyscale),
+`tonal-spot+natural` 0.41, `expressive` 0.47, `fruit-salad` 0.60, `vibrant` 1.00.
+This repo runs `tonal-spot` + `natural`. On `muted` the accent and the body text
+are near-identical and the desktop looks washed out.
+
 Why CSS rather than `wayle config set styling.palette`: that call works, but it
 persists into `runtime.toml`, which is *tracked* — so every wallpaper change
 would leave a dirty working tree. Two details cost time and are worth recording:

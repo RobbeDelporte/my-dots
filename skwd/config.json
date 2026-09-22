@@ -9,7 +9,7 @@
       "cornerBR": 4,
       "cornerTL": 4,
       "cornerTR": 4,
-      "displayMode": "wall",
+      "displayMode": "slices",
       "enabled": true,
       "flipBackReveal": false,
       "flipShader": false,
@@ -75,6 +75,7 @@
         ]
       },
       "roundCorners": true,
+      "skewOffset": 0,
       "startPosition": "applied"
     }
   },
@@ -186,7 +187,7 @@
     "noctaliaScheme": "",
     "policy": "wallpaper",
     "pywalSaturate": "",
-    "scheme": "fidelity",
+    "scheme": "tonal-spot",
     "staticTheme": "nord",
     "style": "natural",
     "targets": [],
