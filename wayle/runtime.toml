@@ -15,6 +15,7 @@ center = ["clock"]
 right = [
     "media",
     "systray",
+    "storage",
     "cpu",
     "ram",
     "bluetooth",
@@ -80,6 +81,12 @@ label = "八"
 
 [modules.hyprland-workspaces.workspace-map.9]
 label = "九"
+
+[modules.storage]
+mount-point = [
+    "/",
+    "/home",
+]
 
 [wallpaper]
 transition-type = "none"
