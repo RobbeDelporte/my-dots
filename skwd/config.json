@@ -78,6 +78,9 @@
       "startPosition": "applied"
     }
   },
+  "features": {
+    "wallhaven": false
+  },
   "filterBar": {
     "visualStyle": "match"
   },
@@ -147,6 +150,12 @@
       "output": "/home/robbe/.config/yazi/theme.toml",
       "reload": "",
       "template": "/home/robbe/my-dots/templates/yazi.tmpl"
+    },
+    {
+      "name": "wayle",
+      "output": "/home/robbe/my-dots/wayle/styles/_colors.scss",
+      "reload": "",
+      "template": "/home/robbe/my-dots/templates/wayle-colors.tmpl"
     }
   ],
   "launch": {
@@ -177,7 +186,7 @@
     "noctaliaScheme": "",
     "policy": "wallpaper",
     "pywalSaturate": "",
-    "scheme": "tonal-spot",
+    "scheme": "fidelity",
     "staticTheme": "nord",
     "style": "natural",
     "targets": [],

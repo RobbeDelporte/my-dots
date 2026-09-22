@@ -35,6 +35,12 @@ generated/
 # (config.toml hand-edit layer — unused/empty here, schema.json, etc.) is ignored.
 wayle/*
 !wayle/runtime.toml
+# styles/index.scss is tracked; it imports the generated _colors.scss (ignored).
+# git cannot re-include a file whose parent dir is excluded, so styles/ has to be
+# un-excluded first, then its contents excluded again.
+!wayle/styles/
+wayle/styles/*
+!wayle/styles/index.scss
 
 # skwd-wall: ~/.config/skwd-wall-v2 is a whole-dir symlink to skwd/ (the picker
 # rewrites config.json, which would break a per-file symlink). config.json is the

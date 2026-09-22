@@ -126,7 +126,7 @@ changes without logging out, run a nested instance:
 
 `~/.config/wayle` is a whole-dir symlink to `wayle/`. This setup is **GUI-driven**: you change settings in the wayle settings app, which writes **`runtime.toml`** — the **single tracked source of truth** (`my-dots/wayle/runtime.toml`). Because the whole dir is symlinked, those GUI writes land in the tracked file automatically, so your changes show up in `git status`.
 
-wayle layers config as `defaults → config.toml → runtime.toml`; since everything lives in `runtime.toml`, **`config.toml` is intentionally empty and gitignored** (it's wayle's optional hand-edit layer, unused here). Everything else in the dir (`schema.json`, `config.toml.example`, `themes/`, `styles/`, `tombi.toml`) is wayle-generated and gitignored too — so `wayle/` tracks exactly one file. **`styling.theme-provider` must stay `"wayle"`** — the static provider. wayle no longer extracts colours: skwd-wall owns the wallpaper, so wayle has no image to read. The bar therefore uses the fixed ten-colour `styling.palette` in `runtime.toml`, set once by hand. To re-pin it to the current wallpaper, render the palette and set it in one call (see **wallpapers** below).
+wayle layers config as `defaults → config.toml → runtime.toml`; since everything lives in `runtime.toml`, **`config.toml` is intentionally empty and gitignored** (it's wayle's optional hand-edit layer, unused here). Everything else in the dir (`schema.json`, `config.toml.example`, `themes/`, `styles/`, `tombi.toml`) is wayle-generated and gitignored too — so `wayle/` tracks exactly one file. **`styling.theme-provider` stays `"wayle"`** — the static provider. wayle no longer extracts colours: skwd owns the wallpaper, so wayle has no image to read. Its `styling.palette` is effectively unused, because the bar is themed by a generated CSS override instead (see **wallpapers**). Two files in `wayle/` are tracked, not one: `runtime.toml` and `styles/index.scss`.
 
 Note: wayle reformats `runtime.toml` (strips comments, reorders, expands floats) whenever the GUI writes it — expected. If the live bar ever ignores GUI edits right after a dotfiles change, run `wayle panel restart` (the daemon needs to re-attach to the dir).
 
@@ -165,13 +165,24 @@ Two things worth knowing:
   also targets it; skwd reports *"This app already has a custom output"* and
   blocks the toggle, so the two mechanisms are mutually exclusive per app.
 
-**The bar does not follow the wallpaper.** That is the one deliberate gap: wayle's palette is static (see **wayle**). To re-pin it to the current wallpaper:
+**The bar follows the wallpaper via CSS, not config.** wayle's `styling.palette`
+is inert; the bar is themed by overriding wayle's semantic CSS variables. The
+`wayle` integration renders `wayle/styles/_colors.scss` (gitignored) on every
+wallpaper change, `wayle/styles/index.scss` (tracked) imports it, and wayle
+hot-reloads the stylesheet — no restart, and nothing written to `runtime.toml`.
 
-    # read the current palette straight out of the rendered output
-    grep -E '^(background|color4) ' ~/my-dots/generated/kitty.conf
-    wayle config set styling.palette '{bg="#…",surface="#…",elevated="#…",fg="#…",fg-muted="#…",primary="#…",red="#…",yellow="#f9e2af",green="#a6e3a1",blue="#…"}'
+Why CSS rather than `wayle config set styling.palette`: that call works, but it
+persists into `runtime.toml`, which is *tracked* — so every wallpaper change
+would leave a dirty working tree. Two details cost time and are worth recording:
+`--palette-*` variables are compiled away and cannot be overridden, but the
+semantic layer (`--bg-base`, `--accent`, `--fg-default`, `--bar-*`, `--ws-*`) is
+live; and wayle watches its whole `styles/` directory, so writing the partial is
+enough to trigger a reload.
 
-Note `wayle config set` takes a **TOML inline table**; the JSON form is silently ignored, and its `Set … = …` echo prints the *pre-change* value — only a following `wayle config get` is evidence.
+On a fresh checkout `_colors.scss` does not exist yet, so wayle logs
+`scss compilation failed; keeping previous bundle` and shows its built-in
+styling until the first wallpaper apply — same on-next-render behaviour as
+everything else here.
 
 ## Layout
 
