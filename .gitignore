@@ -35,3 +35,11 @@ generated/
 # (config.toml hand-edit layer — unused/empty here, schema.json, etc.) is ignored.
 wayle/*
 !wayle/runtime.toml
+
+# skwd-wall: ~/.config/skwd-wall-v2 is a whole-dir symlink to skwd/ (the picker
+# rewrites config.json, which would break a per-file symlink). config.json is the
+# SINGLE tracked source of truth. skwd seeds 21 of its own matugen templates into
+# matugen/templates/ here — unused, since theming runs through this repo's
+# matugen/config.toml via skwd's External Matugen setting.
+skwd/*
+!skwd/config.json

@@ -1,0 +1,36 @@
+{
+  "components": {
+    "wallpaperSelector": {
+      "displayMode": "wall",
+      "enabled": true
+    }
+  },
+  "defaultMatugenConfig": "/home/robbe/.config/matugen/config.toml",
+  "externalMatugenCommand": "matugen -c %config% image %path% -t %scheme% -m %mode% --source-color-index %index%",
+  "features": {
+    "matugen": true
+  },
+  "general": {
+    "randomRotate": false
+  },
+  "matugen": {
+    "colorIndex": 0,
+    "schemeType": "scheme-fidelity"
+  },
+  "theme": {
+    "authority": "skwd",
+    "engine": "matugen",
+    "mode": "auto",
+    "noctaliaPureBlack": false,
+    "noctaliaScheme": "",
+    "policy": "wallpaper",
+    "pywalSaturate": "",
+    "scheme": "tonal-spot",
+    "staticTheme": "nord",
+    "style": "pastel",
+    "targets": [],
+    "wallpaperProfiles": [],
+    "wallustColorspace": "",
+    "wallustPalette": ""
+  }
+}

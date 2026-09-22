@@ -23,6 +23,7 @@ links=(
   "$CFG/yazi|yazi"
   "$CFG/rofi|rofi"
   "$CFG/wayle|wayle"
+  "$CFG/skwd-wall-v2|skwd"
   "$CFG/eww|eww"
   "$CFG/starship.toml|starship.toml"
   "$CFG/mimeapps.list|mimeapps.list"
