@@ -125,3 +125,10 @@ hl.layer_rule({ match = { namespace = "wayfreeze" },  animation = "fade" })
 -- Rofi
 hl.layer_rule({ match = { namespace = "rofi" }, animation = "popin 80%", blur = true })
 
+-- skwd-wall picker: no entrance animation at all. Hyprland's default layersIn
+-- is `slide`, which on this top-anchored surface reads as a fade down from the
+-- top; skwd's own launch.animation is already "none", so that movement was
+-- entirely the compositor's. The picker starts in ~150 ms, so it should just
+-- be there. Alternatives if wanted: "fade", "popin 90%", "slide bottom".
+hl.layer_rule({ match = { namespace = "skwd-wall" }, animation = "none" })
+

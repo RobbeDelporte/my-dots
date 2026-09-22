@@ -5,16 +5,19 @@
         "grid": "Style 2",
         "slices": "Style 1"
       },
-      "cornerBL": 4,
-      "cornerBR": 4,
-      "cornerTL": 4,
-      "cornerTR": 4,
+      "cornerBL": 6,
+      "cornerBR": 6,
+      "cornerTL": 6,
+      "cornerTR": 6,
       "displayMode": "slices",
       "enabled": true,
       "flipBackReveal": false,
       "flipShader": false,
       "gridCornerRadius": 4,
       "gridLayout": "justified",
+      "handCardWidth": 400,
+      "hexCurve": "flat",
+      "hexShape": "triangle",
       "lastAppliedKey": "static:crashed-spaceship.jpg",
       "presets": {
         "grid": [
@@ -75,7 +78,11 @@
         ]
       },
       "roundCorners": true,
+      "sandyLodAuto": false,
+      "showTypeBadges": false,
       "skewOffset": 0,
+      "sliceSpacing": 4,
+      "sliceWobble": false,
       "startPosition": "applied"
     }
   },
@@ -83,11 +90,47 @@
     "wallhaven": false
   },
   "filterBar": {
+    "last": {
+      "color": -1,
+      "favouritesOnly": false,
+      "folder": "*",
+      "kind": "",
+      "orient": "",
+      "resolution": "",
+      "showHiddenFolders": true,
+      "sort": "color"
+    },
+    "show": {
+      "colors": false,
+      "favourites": false,
+      "folder": false,
+      "random": false,
+      "resolution": false,
+      "sort": {
+        "color": false,
+        "date": false,
+        "minimalist": false,
+        "pop": false,
+        "recent": false,
+        "res": false,
+        "richness": false
+      },
+      "tagcloud": false,
+      "theme": false,
+      "type": {
+        "all": false,
+        "static": false,
+        "video": false,
+        "we": false
+      }
+    },
+    "sticky": true,
     "visualStyle": "match"
   },
   "general": {
     "applyOnPickerMonitor": false,
     "closeOnSelection": true,
+    "filterBarAlwaysVisible": true,
     "notifyOnWallpaperChange": false,
     "randomRotate": false
   },
