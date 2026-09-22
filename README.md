@@ -93,9 +93,8 @@ hypr/hyprland/*.lua        variables, monitors, input, animations, rules, keybin
 ```
 
 The parallel `.conf` tree that this replaced is gone (it was kept as a rollback
-path until the Lua config had been daily-driven). `hyprlock.conf` and
-`hypridle.conf` stay hyprlang — those tools are not the compositor and never
-took Lua. To check which config is live: `hyprctl dispatch` evaluates **Lua**, so
+path until the Lua config had been daily-driven). `hyprlock.conf` stays
+hyprlang — hyprlock is not the compositor and never took Lua. To check which config is live: `hyprctl dispatch` evaluates **Lua**, so
 a legacy `hyprctl dispatch exec echo` fails with a Lua syntax error while
 `hyprctl dispatch 'hl.dsp.exec_cmd("true")'` returns `ok`.
 
@@ -115,7 +114,7 @@ Notes that bit during the migration and are easy to re-break:
 - **`resize` takes pixels, not percentages.** hyprlang's `resizeactive -10% 0`
   has no direct equivalent; `keybinds.lua` resolves the fraction against the
   focused monitor (`hl.get_active_monitor()`, physical size ÷ scale).
-- **hypr\* tools still use hyprlang.** `hypridle.conf` and `hyprlock.conf` stay
+- **hypr\* tools still use hyprlang.** `hyprlock.conf` stays
   `.conf`; only the compositor moved.
 
 `hypr/.luarc.json` points lua_ls at `/usr/share/hypr/stubs`, so editing these
@@ -141,7 +140,7 @@ Note: wayle reformats `runtime.toml` (strips comments, reorders, expands floats)
     yay -S skwd-wall-v2-bin skwd-lens-bin
     systemctl --user enable --now skwd-walld.service
 
-`skwd-helm` is the CLI — `apply`, `current --json`, `retheme`, `random`, `history`, `watch`. Anything needing the current wallpaper path reads `skwd-helm current --json` and filters for `type == "static"`; hyprlock and the eww clock draw an image and cannot render a video or a scene, so while one of those is up they keep the previous still.
+`skwd-helm` is the CLI — `apply`, `current --json`, `retheme`, `random`, `history`, `watch`. Anything needing the current wallpaper path reads `skwd-helm current --json` and filters for `type == "static"`; hyprlock draws an image and cannot render a video or a scene, so while one of those is up it keeps the previous still.
 
 **Theming.** skwd drives *this repo's* `matugen/config.toml` through its **External Matugen** setting (Settings → Matugen → Config path = `~/.config/matugen/config.toml`). Every template here renders exactly as it did when wayle ran matugen — and now video and scenes theme the desktop too, since skwd extracts from a frame rather than from the source file.
 

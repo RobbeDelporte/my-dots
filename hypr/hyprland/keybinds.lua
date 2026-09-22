@@ -72,7 +72,6 @@ end
 hl.bind("SUPER + Space", hl.dsp.exec_cmd("pkill -x rofi || rofi -show drun"))
 hl.bind("SUPER + Tab", hl.dsp.exec_cmd(SCRIPTS .. "/window-switcher.sh"))       -- window switcher (hyprctl + rofi)
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("skwd-wall-v2"))                   -- wallpaper picker (skwd-wall)
--- hl.bind("SUPER + CTRL + W", hl.dsp.exec_cmd("~/.config/eww/place.sh"))       -- drag-to-place the wallpaper clock (DISABLED with the clock)
 
 -- ── Session / shell control ──
 hl.bind("CTRL + SUPER + SHIFT + R", hl.dsp.exec_cmd("wayle panel restart"), { release = true })
@@ -168,7 +167,7 @@ hl.bind(v.keys.windowBorderedFullscreen, hl.dsp.window.fullscreen({ mode = "maxi
 hl.bind(v.keys.toggleWindowFloating, hl.dsp.window.float({ action = "toggle" }))
 hl.bind(v.keys.closeWindow, hl.dsp.window.close())
 
--- ── Lock (hyprlock; hypridle removed → exec the launcher directly) ──
+-- ── Lock (hyprlock, launched directly; no idle daemon) ──
 hl.bind("SUPER + Escape", hl.dsp.exec_cmd(SCRIPTS .. "/lock.sh"))
 hl.bind("SUPER + L", hl.dsp.exec_cmd(SCRIPTS .. "/lock.sh"))
 

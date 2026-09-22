@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Lock launcher (hypridle's lock_cmd). Captures the live wallpaper into the conf
+# Lock launcher. Captures the live wallpaper into the conf
 # hyprlock sources, so the lock background always matches the current desktop —
 # regardless of how the wallpaper was set (rofi picker or wayle GUI).
 #
-# Every lock path funnels here: Super+L / Super+Escape / idle-timeout /
-# before-sleep all run `loginctl lock-session`, which hypridle turns into this.
+# Every lock path funnels here: Super+L and Super+Escape both exec it
+# directly. There is no idle daemon -- locking is manual only.
 set -euo pipefail
 
 state="${XDG_STATE_HOME:-$HOME/.local/state}/wayle/hyprlock-wallpaper.conf"
