@@ -30,3 +30,53 @@ swayimg.gallery.on_key("g", function() swayimg.set_mode("viewer") end)
 -- panning (pan stays on mouse drag + scroll); PgDn/PgUp also navigate by default.
 swayimg.viewer.on_key("Right", function() swayimg.viewer.switch_image("next") end)
 swayimg.viewer.on_key("Left", function() swayimg.viewer.switch_image("prev") end)
+
+-- Metadata: "i" swaps the top-left overlay between the normal file summary and
+-- every tag swayimg's libexiv2 parse produced (Exif + XMP + IPTC). The text
+-- templates only resolve tags named one at a time ({meta.Exif.Image.Model}), so
+-- the complete list has to be enumerated per image off get_image().meta. Values
+-- come out raw (ResolutionUnit = 2, not "inch") and a long dump clips off-screen
+-- with no way to scroll -- for those, run `exiv2 -pa <file>` in a terminal.
+local SUMMARY = {
+  "File:\t{name}",
+  "Format:\t{format}",
+  "File size:\t{sizehr}",
+  "File time:\t{time}",
+  "EXIF date:\t{meta.Exif.Photo.DateTimeOriginal}",
+  "EXIF camera:\t{meta.Exif.Image.Model}",
+}
+
+local meta_mode = false
+
+local function meta_scheme()
+  local img = swayimg.viewer.get_image()
+  local keys = {}
+  for k in pairs(img and img.meta or {}) do keys[#keys + 1] = k end
+  if #keys == 0 then return { "File:\t{name}", "Metadata:\tnone" } end
+  table.sort(keys)
+  local lines = {}
+  for _, k in ipairs(keys) do
+    -- Flatten tabs/newlines (a stray tab would re-split the key/value pair) and
+    -- escape "{" -- the value is inlined into a template string, not substituted.
+    local v = tostring(img.meta[k]):gsub("[\t\r\n]", " "):gsub("{", "{{")
+    lines[#lines + 1] = k .. ":\t" .. v
+  end
+  return lines
+end
+
+local function apply_overlay()
+  swayimg.text.size = meta_mode and 14 or 24
+  swayimg.text.timeout = meta_mode and 3600 or 5
+  swayimg.text.visible = true
+  swayimg.viewer.set_text("topleft", meta_mode and meta_scheme() or SUMMARY)
+end
+
+swayimg.viewer.on_key("i", function()
+  meta_mode = not meta_mode
+  apply_overlay()
+end)
+
+-- Keep the dump in sync when navigating with it open.
+swayimg.viewer.on_image_change(function()
+  if meta_mode then apply_overlay() end
+end)
