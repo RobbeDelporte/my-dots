@@ -72,7 +72,6 @@ end
 hl.bind("SUPER + Space", hl.dsp.exec_cmd("pkill -x rofi || rofi -show drun"))
 hl.bind("SUPER + Tab", hl.dsp.exec_cmd(SCRIPTS .. "/window-switcher.sh"))       -- window switcher (hyprctl + rofi)
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd(SCRIPTS .. "/wallpicker.sh"))      -- wallpaper picker (rofi + thumbnails)
--- hl.bind("SUPER + CTRL + W", hl.dsp.exec_cmd("~/.config/eww/place.sh"))       -- drag-to-place the wallpaper clock (DISABLED with the clock)
 
 -- ── Session / shell control ──
 hl.bind("CTRL + SUPER + SHIFT + R", hl.dsp.exec_cmd("wayle panel restart"), { release = true })

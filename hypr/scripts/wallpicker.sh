@@ -20,8 +20,3 @@ chosen=$(
 [[ -n "${chosen:-}" ]] || exit 0
 
 wayle wallpaper set -f fill "$wall_dir/$chosen"
-
-# The desktop clock re-places itself from matugen's eww post_hook (wayle re-runs
-# matugen on every wallpaper set, and that post_hook runs reposition.sh --reload).
-# Don't call reposition.sh here too -- doing both double-triggered it and the
-# clock faded in twice.

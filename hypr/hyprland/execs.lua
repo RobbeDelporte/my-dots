@@ -8,12 +8,6 @@ hl.on("hyprland.start", function()
     -- Shell
     hl.exec_cmd("uwsm app -- wayle shell")
 
-    -- Desktop wallpaper clock (eww) — DISABLED. launch.sh waits for awww, opens
-    -- one window per output, and places them per eww/positions.conf. Re-enable by
-    -- uncommenting this AND matugen's [templates.eww] post_hook (which reopens the
-    -- clock on every theme render) and the Super+Ctrl+W place bind in keybinds.lua.
-    -- hl.exec_cmd("uwsm app -- ~/.config/eww/launch.sh")
-
     -- Idle / lock: hypridle removed (manual-lock-only).
 
     -- Clipboard history watchers

@@ -124,8 +124,3 @@ hl.layer_rule({ match = { namespace = "wayfreeze" },  animation = "fade" })
 
 -- Rofi
 hl.layer_rule({ match = { namespace = "rofi" }, animation = "popin 80%", blur = true })
-
--- Desktop wallpaper clock (eww). eww 0.5.0 has no per-window namespace, so it
--- uses the default "gtk-layer-shell" -- currently the only surface with it.
--- Pop in instead of the default layer slide/fade when it (re)opens.
-hl.layer_rule({ match = { namespace = "gtk-layer-shell" }, animation = "popin 80%" })
