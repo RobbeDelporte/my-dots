@@ -18,18 +18,21 @@ cache_dir  = ""
 image_filter = "triangle"
 image_quality = 75
 
+# Yazi 26+ passes files ONLY via its own placeholders (%s = all selected,
+# %s1 = first, %d1 = first's parent dir; yazi shell-quotes them). Shell-style
+# "$@" / "$1" now expand to nothing, so an opener using them runs with no file.
 [opener]
 edit = [
-    { run = 'nvim "$@"', desc = "Open in Neovim", block = true, for = "linux" },
+    { run = 'nvim %s', desc = "Open in Neovim", block = true, for = "linux" },
 ]
 open = [
-    { run = 'xdg-open "$@"', desc = "Open with xdg-open", for = "linux" },
+    { run = 'xdg-open %s1', desc = "Open with xdg-open", for = "linux" },
 ]
 reveal = [
-    { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal in xdg-open", for = "linux" },
+    { run = 'xdg-open %d1', desc = "Reveal in xdg-open", for = "linux" },
 ]
 glow = [
-    { run = 'glow -p "$@"', desc = "Preview with glow", block = true, for = "linux" },
+    { run = 'glow -p %s1', desc = "Preview with glow", block = true, for = "linux" },
 ]
 
 [open]
