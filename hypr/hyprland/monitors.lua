@@ -3,6 +3,9 @@
 
 -- Laptop panel
 hl.monitor({ output = "eDP-1", mode = "preferred", position = "auto", scale = 1.2 })
+-- Workspace 1 lives on the laptop. Unpinned, it's created on whichever monitor
+-- is focused, so a hotplug (e.g. swapping externals across suspend) moves it.
+hl.workspace_rule({ workspace = "1", monitor = "eDP-1", default = true })
 
 -- Catch-all for unknown externals
 hl.monitor({ output = "", mode = "2560x1440@74.78Hz", position = "auto-right", scale = 1, vrr = 0 })
