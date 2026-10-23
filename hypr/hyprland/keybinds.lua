@@ -120,6 +120,8 @@ hl.bind("CTRL + SUPER + SHIFT + left", hl.dsp.window.move({ workspace = "-1" }),
 hl.bind("CTRL + SUPER + SHIFT + up", hl.dsp.window.move({ workspace = "special:special" }))
 hl.bind("CTRL + SUPER + SHIFT + down", hl.dsp.window.move({ workspace = "e+0" }))
 hl.bind("SUPER + ALT + S", hl.dsp.window.move({ workspace = "special:special" }))
+hl.bind("SUPER + ALT + A", hl.dsp.window.move({ workspace = "special:scratch" }))
+hl.bind("SUPER + ALT + E", hl.dsp.window.move({ workspace = "special:files" }))
 
 -- ── Window groups ──
 hl.bind(v.keys.windowGroupCycleNext, hl.dsp.window.cycle_next(), { repeating = true })

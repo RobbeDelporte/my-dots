@@ -115,6 +115,7 @@ hl.config({
 })
 
 hl.workspace_rule({ workspace = "special:special", gaps_out = v.workspaceGaps })
+hl.workspace_rule({ workspace = "special:scratch", gaps_out = v.workspaceGaps })
 
 -- Environment variables
 hl.env("QT_QPA_PLATFORMTHEME", "qtengine")

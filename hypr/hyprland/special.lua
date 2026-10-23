@@ -48,3 +48,5 @@ hl.bind("SUPER + M", scratchpad("music", "spotify-qt", "spotify-qt"))
 hl.bind("CTRL + SHIFT + Escape", scratchpad("sysmon", "btop", "kitty --class btop --title btop btop"))
 -- generic scratch toggle, Super+S
 hl.bind(v.keys.toggleSpecialWs, hl.dsp.workspace.toggle_special("special"))
+-- second generic scratch toggle, Super+A
+hl.bind("SUPER + A", hl.dsp.workspace.toggle_special("scratch"))
