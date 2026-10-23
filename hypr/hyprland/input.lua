@@ -54,7 +54,7 @@ hl.config({
 -- input.touchpad{} (Hyprland has no such config keys); they only work at input{}
 -- top level (would override the mouse) or in a per-device block like this one.
 hl.device({
-    name          = "uniw0001:00-093a:0255-touchpad",
+    name          = "elan0412:00-04f3:3240-touchpad",
     sensitivity   = -0.1,
     accel_profile = "adaptive",
 })
