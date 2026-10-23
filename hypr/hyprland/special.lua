@@ -14,7 +14,7 @@ local SPAWN_SETTLE_MS = 300
 
 -- hl.get_windows({ class = … }) matches exactly and case-sensitively. wstoggle.sh
 -- used jq's `test($c; "i")`, so keep that: case-insensitive substring, compared
--- literally rather than as a Lua pattern (the "-" in "spotify-qt" is a pattern
+-- literally rather than as a Lua pattern (a "-" in a class name is a pattern
 -- quantifier, so a bare :match() would not mean what it looks like).
 local function is_running(class)
     local needle = class:lower()
@@ -42,8 +42,6 @@ end
 hl.bind("SUPER + E", scratchpad("files", "yazi", "kitty --class yazi --title yazi yazi"))
 -- communication: slack, Super+D
 hl.bind("SUPER + D", scratchpad("communication", "slack", "slack"))
--- music: spotify-qt, Super+M
-hl.bind("SUPER + M", scratchpad("music", "spotify-qt", "spotify-qt"))
 -- sysmon: btop in kitty, Ctrl+Shift+Escape
 hl.bind("CTRL + SHIFT + Escape", scratchpad("sysmon", "btop", "kitty --class btop --title btop btop"))
 -- generic scratch toggle, Super+S

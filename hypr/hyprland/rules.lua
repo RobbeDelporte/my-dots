@@ -56,7 +56,6 @@ floating_centered({ class = "nwg-look" }, { "monitor_w*0.5", "monitor_h*0.6" })
 -- Special workspaces
 hl.window_rule({ match = { class = "btop" }, workspace = "special:sysmon" })
 hl.window_rule({ match = { class = "slack" }, workspace = "special:communication" })
-hl.window_rule({ match = { class = "spotify-qt" }, workspace = "special:music" })
 
 -- Dialogs
 hl.window_rule({ match = { title = [[(Select|Open)( a)? (File|Folder)(s)?]] }, float = true })
