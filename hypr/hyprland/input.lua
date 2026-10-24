@@ -53,11 +53,18 @@ hl.config({
 -- Per-device touchpad accel — NB: sensitivity/accel_profile are NOT valid inside
 -- input.touchpad{} (Hyprland has no such config keys); they only work at input{}
 -- top level (would override the mouse) or in a per-device block like this one.
-hl.device({
-    name          = "elan0412:00-04f3:3240-touchpad",
-    sensitivity   = -0.1,
-    accel_profile = "adaptive",
-})
+-- One name per machine sharing these dots: a block whose name matches no
+-- connected device is silently ignored, so each machine picks up its own.
+for _, touchpad in ipairs({
+    "uniw0001:00-093a:0255-touchpad", -- tuxedo
+    "elan0412:00-04f3:3240-touchpad", -- ELAN laptop
+}) do
+    hl.device({
+        name          = touchpad,
+        sensitivity   = -0.1,
+        accel_profile = "adaptive",
+    })
+end
 
 hl.gesture({ fingers = v.workspaceSwipeFingers, direction = "horizontal", action = "workspace" })
 hl.gesture({ fingers = v.gestureFingers, direction = "up", action = "special", workspace_name = "special" })
